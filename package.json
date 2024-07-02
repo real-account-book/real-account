@@ -18,7 +18,6 @@
   "main": "app.js",
   "scripts": {
     "build": "ts-node app.ts"
-
   },
   "keywords": [],
   "author": "",
