@@ -2,6 +2,26 @@
   "dependencies": {
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
-    "mysql2": "^3.10.1"
-  }
+    "mysql2": "^3.10.1",
+    "nodejs": "^0.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "name": "real-account-book",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "build": "ts-node app.ts"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

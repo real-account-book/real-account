@@ -1,11 +1,13 @@
-const mariadb = require('mysql2');
+import mariadb from 'mysql2/promise'
+
       
-const connection = mariadb.createConnection({
+
+export const conn = mariadb.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'password',
   database: 'Accountbook',
   dateStrings : true,
 })
-  
-module.exports = connection
+
+export default conn;
