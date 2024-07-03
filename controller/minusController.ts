@@ -3,9 +3,14 @@ import { Request,Response } from "express"
 import { StatusCodes } from "http-status-codes"
 
 export const addMinus = (req : Request,res : Response) => {
-  let query = ''
-  conn.query(query, (_err, result) => {
-      return res.status(StatusCodes.OK).json(result)
+  let { minus, category_id, title, content, uploaded_at } = req.body
+
+  let query= `INSERT  INTO  Asset_minus
+    (minus, category_id, title, content, uploaded_at)
+    VALUES (?, ?, ?, ?, ?);`;
+  let values = [ minus, category_id, title, content, uploaded_at ];
+  conn.query(query, values, (_err, result) => {
+    return res.status(StatusCodes.CREATED).json(result);
   })
 };
 
