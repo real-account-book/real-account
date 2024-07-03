@@ -2,13 +2,13 @@
 import express, { Router } from "express";
 import { addMinus, deleteMinus, editMinus } from "../controller/MinusController";
 
-export const dayRouter : Router = express.Router();
-dayRouter.use(express.json());
+export const minusRouter : Router = express.Router();
+minusRouter.use(express.json());
 
 // 일별 전체 입금 내역 조회
-dayRouter.route('/')
-.post(addMinus)
-.delete(deleteMinus);
+minusRouter.route('/')
+.post(addMinus);
 
-dayRouter
-.put(':minusId', editMinus);
+minusRouter.route('/:minusId')
+.put(editMinus)
+.delete(deleteMinus);
