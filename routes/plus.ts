@@ -6,7 +6,7 @@ plusRouter.use(express.json())
 
 plusRouter.route('/')
 .post(addPlus)
+.put(editPlus)
 
 plusRouter.route('/:plusId')
 .delete(deletePlus)
-.put(editPlus)
