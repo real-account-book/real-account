@@ -14,8 +14,7 @@ export const addMinus = (req : Request,res : Response) => {
 };
 
 export const deleteMinus = (req : Request,res : Response) => {
-  const minus_id = req.params.minusId;
-  console.log(minus_id)
+  const minus_id = Number(req.params.minusId);
   
   let query = `DELETE FROM Asset_minus WHERE id = ?`;
   conn.query(query, minus_id, (_err, result) => {
@@ -24,8 +23,14 @@ export const deleteMinus = (req : Request,res : Response) => {
 };
 
 export const editMinus = (req : Request,res : Response) => {
-  let query = ''
-  conn.query(query, (_err, result) => {
-      return res.status(StatusCodes.OK).json(result)
+  const minus_id = Number(req.params.minusId);
+  let { minus, category_id, title, content, uploaded_at } = req.body
+  
+  let query = `UPDATE Asset_minus
+                SET minus = ?, category_id = ?, title = ?, content = ?, uploaded_at = ?
+                WHERE id = ?`
+  let values = [ minus, category_id, title, content, uploaded_at, minus_id ];
+  conn.query(query, values, (_err, result) => {
+    return res.status(StatusCodes.OK).json(result)
   })
 };
