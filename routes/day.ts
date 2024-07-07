@@ -1,6 +1,6 @@
 // 일별 조회 API
 import express, { Router } from "express";
-import { getDayPlus, getDayMinus, getDayTotal } from "../controller/DayController"
+import { getDayPlus, getDayMinus } from "../controller/DayController"
 
 export const dayRouter : Router = express.Router();
 dayRouter.use(express.json());
@@ -12,4 +12,4 @@ dayRouter.get('/plus', getDayPlus);
 dayRouter.get('/minus', getDayMinus);
 
 // 일별 총수입/총지출 조회
-dayRouter.get('/total', getDayTotal);
+// dayRouter.get('/total', getDayTotal);
