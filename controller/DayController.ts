@@ -7,8 +7,9 @@ export const getDayPlus = (req : Request,res : Response) => {
   let { year, month, day } = req.body;
 
   let values = [year, month, day];
+  console.log(year, month, day);
   let query = `SELECT *
-              FROM Asset_plus
+              FROM asset_plus
               WHERE YEAR(uploaded_at) = ?
                 AND MONTH(uploaded_at) = ?
                 AND DAY(uploaded_at) = ?`;
@@ -22,7 +23,7 @@ export const getDayMinus = (req : Request,res : Response) => {
 
   let values = [year, month, day];
   let query = `SELECT *
-              FROM Asset_minus
+              FROM asset_minus
               WHERE YEAR(uploaded_at) = ?
                 AND MONTH(uploaded_at) = ?
                 AND DAY(uploaded_at) = ?`;
