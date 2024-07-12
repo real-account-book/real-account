@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     port: 3306,
     username: "root",
     password: "password",
-    database: "test",
+    database: "accountbook",
     synchronize: true,
     logging: false,
     entities: [__dirname + "./Entity/*.ts",Asset_plus],
