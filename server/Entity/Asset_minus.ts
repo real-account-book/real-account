@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
-import {Category} from './Category'
+import {Categories} from './Categories'
  
 @Entity()
 export class Asset_minus {
@@ -25,7 +25,7 @@ export class Asset_minus {
     @UpdateDateColumn()
     updated_at: Date
 
-    @OneToOne(type => Category)
-    @JoinColumn()
-    category : Category
+    @OneToOne(type => Categories)
+    @JoinColumn({name: "category_id"})
+    category : Categories
 }

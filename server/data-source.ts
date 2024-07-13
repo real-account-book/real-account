@@ -1,8 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { Asset_plus } from "./Entity/Asset_plus"
-import {Asset_minus} from './Entity/Asset_minus'
-import { Category } from "./Entity/Category"
+
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -13,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "accountbook",
     synchronize: true,
     logging: false,
-    entities: [__dirname + "./Entity/*.ts",Asset_plus],
+    entities: ["server/entity/*.ts"],
     migrations: [],
     subscribers: [],
 })
