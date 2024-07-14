@@ -1,6 +1,6 @@
 import {AppDataSource} from '../data-source'
-import { Asset_minus } from "../entity/Asset_minus";
-import { Asset_plus } from "../entity/Asset_plus";
+import { Asset_minus } from "../Entity/Asset_minus";
+import { Asset_plus } from "../Entity/Asset_plus";
 import { Request, Response } from 'express';
 
 export const getTotalPlus = async (req : Request,res : Response) => {

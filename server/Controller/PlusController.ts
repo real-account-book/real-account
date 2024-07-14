@@ -1,6 +1,6 @@
 
 import {AppDataSource} from '../data-source'
-import { Asset_plus } from "../entity/Asset_plus";
+import { Asset_plus } from "../Entity/Asset_plus";
 import { Request, Response } from 'express';
 
 export const addPlus = async (req : Request,res : Response) => {
