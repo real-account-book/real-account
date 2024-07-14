@@ -1,6 +1,6 @@
 
 import {AppDataSource} from '../data-source'
-import { Asset_plus } from "../Entity/Asset_plus";
+import { Asset_plus } from "../entity/Asset_plus";
 import { Request, Response } from 'express';
 
 export const addPlus = async (req : Request,res : Response) => {
@@ -27,14 +27,14 @@ export const addPlus = async (req : Request,res : Response) => {
 }
 
 export const deletePlus = async (req : Request,res : Response) => {
-    const {plus_id} = req.params;
+    const {plusId} = req.params;
     const plusRepository = AppDataSource.getRepository(Asset_plus)
     
     try{
       const deletePlus = await plusRepository.createQueryBuilder('asset_plus')
       .delete()
       .from('asset_plus')
-      .where("asset_plus.plus_id = :plus_id", {plus_id : plus_id})
+      .where("asset_plus.plus_id = :plus_id", {plus_id : plusId})
       .execute();
 
       res.json(deletePlus)
@@ -46,14 +46,15 @@ export const deletePlus = async (req : Request,res : Response) => {
 
 
 export const updatePlus = async (req : Request,res : Response) => {
-    const {plus_id, plus, title, content} = req.body;
+    const {plusId} = req.params;
+    const {plus, title, content} = req.body;
     const plusRepository = AppDataSource.getRepository(Asset_plus)
     
     try{
       const updatePlus = await plusRepository.createQueryBuilder('asset_plus')
       .update()
       .set({plus: plus, title: title, content: content})
-      .where("asset_plus.plus_id = :plus_id", {plus_id : plus_id})
+      .where("asset_plus.plus_id = :plus_id", {plus_id : plusId})
       .execute();
  
 

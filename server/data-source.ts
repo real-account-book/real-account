@@ -1,19 +1,18 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { Asset_plus } from "./Entity/Asset_plus"
-import {Asset_minus} from './Entity/Asset_minus'
-import { Category } from "./Entity/Category"
+import dotenv from "dotenv"
+dotenv.config();
 
 export const AppDataSource = new DataSource({
     type: "mysql",
-    host: "localhost",
+    host: process.env.HOST_KEY,
     port: 3306,
-    username: "root",
-    password: "password",
-    database: "accountbook",
+    username: process.env.USER_KEY,
+    password: process.env.PASSWORD_KEY, 
+    database: process.env.DATABASE_KEY, // Accountbook => accountbook으로 수정
     synchronize: true,
     logging: false,
-    entities: [__dirname + "./Entity/*.ts",Asset_plus],
+    entities: ["server/entity/*.ts"],
     migrations: [],
     subscribers: [],
 })
