@@ -1,8 +1,11 @@
-import React from 'react';
+import MonthCalendarSmall from '../../components/MonthCalendarSmall/MonthCalendarSmall';
 
 const MonthDetailPage = () => {
+
   return(
-    <div>MonthDetailPage</div>
+    <>
+      <MonthCalendarSmall />
+    </>
   );
 }
 
