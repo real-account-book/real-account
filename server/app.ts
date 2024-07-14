@@ -1,10 +1,11 @@
 import { AppDataSource } from "./data-source"
 import  express from "express"
-import { monthRouter } from "./routes/month"
 import { plusRouter } from "./routes/plus"
-import { dayRouter } from "./routes/day"
+import { totalRouter } from "./routes/total"
 import { minusRouter } from "./routes/minus"
 import { categoryRouter } from "./routes/categories"
+import  dotenv  from "dotenv"
+dotenv.config()
 
 AppDataSource.initialize().then(async () => {
 
@@ -16,10 +17,9 @@ const app = express();
 
 app.use(express.json())
 
-app.use('/month', monthRouter)
 app.use('/plus', plusRouter)
-app.use('/day', dayRouter)
+app.use('/total', totalRouter)
 app.use('/minus', minusRouter)
 app.use('/category', categoryRouter)
 
-app.listen(3000)    
+app.listen(process.env.PORT_KEY)    

@@ -58,6 +58,7 @@ export const updateMinus = async (req : Request,res : Response) => {
       .where("asset_minus.minus_id = :minus_id", {minus_id : minusId})
       .execute();
  
+
       res.json(updateMinus)
     }catch(err){
         console.error('Error fetching data: ', err);
