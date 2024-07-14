@@ -1,6 +1,6 @@
 import {AppDataSource} from '../data-source'
 import { Request, Response } from 'express';
-import { Categories } from '../entity/Categories';
+import { Categories } from '../Entity/Categories';
 
 export const addCategory = async (req : Request,res : Response) => {
     const {category_name} = req.body;

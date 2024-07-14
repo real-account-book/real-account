@@ -1,5 +1,5 @@
 import {AppDataSource} from '../data-source'
-import { Asset_minus } from "../entity/Asset_minus";
+import { Asset_minus } from "../Entity/Asset_minus";
 import { Request, Response } from 'express';
 
 export const addMinus = async (req : Request,res : Response) => {
