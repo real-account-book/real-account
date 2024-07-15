@@ -47,7 +47,7 @@ const DayDetailModal = ({dayModalOpen, loading, selectedDate, selectedMonth, set
 
       <div className={lowerContainer}>
         <button className={addHistoryButton} onClick={handleAddModalState}>
-          <Button type="primary" shape="circle" icon={<PlusOutlined />} />
+          <div><PlusOutlined /></div>
           <p>기록 추가</p>
         </button>
         <AddHistoryModal />
