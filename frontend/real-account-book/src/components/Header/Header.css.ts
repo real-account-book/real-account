@@ -5,7 +5,7 @@ export const header = style({
   display: `flex`,
   justifyContent: `space-between`,
   width: `60%`,
-  maxWidth: 1360,
+  maxWidth: 770,
   minWidth: 680,
   margin: `auto`,
   marginTop: 30,
