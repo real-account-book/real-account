@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { Calendar, theme } from 'antd';
 import type { CalendarProps } from 'antd';
-import type { Dayjs }from 'dayjs';
+import { Dayjs }from 'dayjs';
 import dayjs from 'dayjs';
 import DayDetailModal from '../../modals/DayDetailModal/DayDetailModal';
+import { wrapperStyle } from './MonthCalendarSmall.css.ts';
 
 const MonthCalendarSmall = () => {
   const [dayModalOpen, setDayModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [value, setValue] = useState(() => dayjs('2017-01-25'));
-  const [selectedValue, setSelectedValue] = useState(() => dayjs('2017-01-25'));
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<number>(6)
 
   const { token } = theme.useToken();
 
@@ -23,10 +24,8 @@ const MonthCalendarSmall = () => {
   };
 
   const onSelect = (newValue: Dayjs) => {
-    setValue(newValue);
-    setSelectedValue(newValue);
+    setSelectedDate(newValue.date());
     showLoading();
-    console.log(newValue);
   };
 
   const wrapperStyle: React.CSSProperties = {
@@ -35,17 +34,44 @@ const MonthCalendarSmall = () => {
     borderRadius: token.borderRadiusLG,
   };
 
+  const cellStyle: React.CSSProperties = {
+    background: 'transparent',
+    color: 'rgba(0, 0, 0, 0.88)',
+    fontWeight: 'normal',
+    border: `none !important`,
+  };
+
+  const disabledDate = (current: Dayjs) => {
+    return current.month() !== selectedMonth;
+  };
+
+  const dateFullCellRender = (date: Dayjs) => {
+    return (
+      <div className="ant-picker-cell-inner" style={cellStyle}>
+        {date.date()}
+      </div>
+    );
+  };
+
   return(
     <>
       <div style={wrapperStyle}>
         <Calendar 
           fullscreen={false} 
-          value={value} 
           onSelect={onSelect} 
           headerRender={() => null}
+          onPanelChange={() => {}}
+          disabledDate={disabledDate}
+          fullCellRender={dateFullCellRender}
         />
       </div>
-      <DayDetailModal dayModalOpen={dayModalOpen} setDayModalOpen={setDayModalOpen} loading={loading}/>
+      <DayDetailModal 
+        dayModalOpen={dayModalOpen} 
+        setDayModalOpen={setDayModalOpen} 
+        loading={loading} 
+        selectedDate={selectedDate}
+        selectedMonth={selectedMonth}
+      />
     </>
   );
 }

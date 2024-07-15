@@ -4,17 +4,19 @@ import { modalStyles } from "./DayModalStyle.ts";
 type TDayModalProps = {
   dayModalOpen: boolean;
   loading: boolean;
+  selectedDate: number | null;
+  selectedMonth: number;
   setDayModalOpen: (dayModalOpen: boolean) => void;
 }
 
-const DayDetailModal = ({dayModalOpen, loading, setDayModalOpen}: TDayModalProps) => {
+const DayDetailModal = ({dayModalOpen, loading, selectedDate, selectedMonth, setDayModalOpen}: TDayModalProps) => {
   
   const closeModal = () => {
     setDayModalOpen(false)
   };
   
   return(
-    <Modal title={`7월 7일`} 
+    <Modal title={`${selectedMonth + 1}월 ${selectedDate}일`} 
       open={dayModalOpen}
       loading={loading} 
       onCancel={closeModal}
