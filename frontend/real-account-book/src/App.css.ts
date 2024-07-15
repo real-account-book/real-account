@@ -1,4 +1,4 @@
-import { createGlobalTheme } from "@vanilla-extract/css";
+import { createGlobalTheme, style } from "@vanilla-extract/css";
 
 export const vars = createGlobalTheme(":root", {
   color: {
@@ -12,6 +12,12 @@ export const vars = createGlobalTheme(":root", {
     utilText: 'rgba(22, 26, 65, 0.53)'  
   },
   border: {
-    basic: 10
+    basic: `10px`
   }
 });
+
+export const main = style({
+  maxWidth: `780px`,
+  minWidth: `640px`, 
+  margin: `auto`
+})
