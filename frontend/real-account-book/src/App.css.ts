@@ -11,4 +11,7 @@ export const vars = createGlobalTheme(":root", {
     utils: 'rgba(105, 118, 235, 1)',
     utilText: 'rgba(22, 26, 65, 0.53)'  
   },
+  border: {
+    basic: 10
+  }
 });
