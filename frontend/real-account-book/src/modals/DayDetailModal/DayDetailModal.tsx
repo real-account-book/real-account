@@ -4,7 +4,7 @@ import { modalStyles } from "./DayModalStyle.ts";
 type TDayModalProps = {
   dayModalOpen: boolean;
   loading: boolean;
-  selectedDate: number | null;
+  selectedDate: number;
   selectedMonth: number;
   setDayModalOpen: (dayModalOpen: boolean) => void;
 }

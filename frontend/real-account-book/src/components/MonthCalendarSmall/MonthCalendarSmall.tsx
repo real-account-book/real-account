@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, theme } from 'antd';
-import type { CalendarProps } from 'antd';
 import { Dayjs }from 'dayjs';
 import dayjs from 'dayjs';
 import DayDetailModal from '../../modals/DayDetailModal/DayDetailModal';
-import { wrapperStyle } from './MonthCalendarSmall.css.ts';
 
-const MonthCalendarSmall = () => {
+type TMonthCalendarSmall = {
+  dateY: string,
+  dateM: string
+}
+
+const MonthCalendarSmall = ({dateY, dateM}: TMonthCalendarSmall) => {
+  const month: number = parseInt(dateM);
+  const selectedMonth: number = month - 1;
+  const defaultDate: Dayjs = dayjs(`${dateY}-${(month.toString().length === 1 ? '0' : '') + month.toString()}-01`);
+
   const [dayModalOpen, setDayModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState<number>(6)
+  const [selectedDate, setSelectedDate] = useState<number>(1);
 
   const { token } = theme.useToken();
 
@@ -62,6 +68,7 @@ const MonthCalendarSmall = () => {
           headerRender={() => null}
           onPanelChange={() => {}}
           disabledDate={disabledDate}
+          defaultValue={defaultDate}
           fullCellRender={dateFullCellRender}
         />
       </div>
