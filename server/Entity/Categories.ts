@@ -6,7 +6,7 @@ import { Asset_minus } from "./asset_minus"
 export class Categories {
     @PrimaryGeneratedColumn({type:"int"})
     category_id : number
-       
+
     @Column("varchar",{length:45})
     category_name : string
 

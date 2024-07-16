@@ -14,7 +14,7 @@ export const addCategory = async (req : Request,res : Response) => {
         })
         .execute()
         res.json(addCategory)
-        
+
     }catch(err){
         console.error('Error fetching data: ', err);
         res.status(500).json({error: "Internal Server Error"})
@@ -46,8 +46,6 @@ export const addCategory = async (req : Request,res : Response) => {
 export const getCategory = async (req : Request,res : Response) => {
     const {categoryId} = req.params;
     const categoryRepository = AppDataSource.getRepository(Categories)
-    console.log(categoryId);
-    
     try{
         const query = categoryRepository.createQueryBuilder('categories')
         .select(['categories.category_id','categories.category_name'])
@@ -57,7 +55,7 @@ export const getCategory = async (req : Request,res : Response) => {
         const getCategory = await query.getMany();
   
         res.json(getCategory)
-        
+
     }catch(err){
         console.error('Error fetching data: ', err);
         res.status(500).json({error: "Internal Server Error"})

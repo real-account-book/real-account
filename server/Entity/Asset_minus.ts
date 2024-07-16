@@ -5,7 +5,7 @@ import {Categories} from './categories'
 export class Asset_minus {
 
     @PrimaryGeneratedColumn()
-    minus_id: number 
+    minus_id: number
 
     @Column({type: "int"})
     minus: number
@@ -18,7 +18,7 @@ export class Asset_minus {
 
     @Column("date")
     uploaded_at: Date
-    
+
     @CreateDateColumn()
     created_at: Date
 
