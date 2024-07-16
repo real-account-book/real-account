@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from "typeorm"
 import {Categories} from './Categories'
- 
+
 @Entity()
 export class Asset_minus {
 
     @PrimaryGeneratedColumn()
-    minus_id: number 
+    minus_id: number
 
     @Column({type: "int"})
     minus: number
@@ -18,7 +18,7 @@ export class Asset_minus {
 
     @Column("date")
     uploaded_at: Date
-    
+
     @CreateDateColumn()
     created_at: Date
 

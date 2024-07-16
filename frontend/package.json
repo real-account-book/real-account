@@ -1,5 +1,5 @@
 {
-  "name": "real-account-book",
+  "name": "@real-account-book/frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
