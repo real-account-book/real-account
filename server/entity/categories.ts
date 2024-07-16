@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
-import { Asset_minus } from "./Asset_minus"
+import { Asset_minus } from "./asset_minus"
 
 
 @Entity()

@@ -1,5 +1,5 @@
 import express, {Router} from "express";
-import { addMinus,deleteMinus,updateMinus} from "../Controller/MinusController";
+import { addMinus,deleteMinus,updateMinus} from "../controller/minusController";
 
 export const minusRouter : Router = express.Router()
 minusRouter.use(express.json());

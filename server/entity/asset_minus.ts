@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from "typeorm"
-import {Categories} from './Categories'
-
+import {Categories} from './categories'
+ 
 @Entity()
 export class Asset_minus {
 
