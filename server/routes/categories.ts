@@ -1,6 +1,6 @@
 
 import express, {Router} from "express";
-import { addCategory, getCategory } from "../Controller/categoryController";
+import { addCategory, getCategory } from "../controller/categoryController";
 
 export const categoryRouter : Router = express.Router()
 categoryRouter.use(express.json());
