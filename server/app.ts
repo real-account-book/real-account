@@ -22,6 +22,6 @@ app.use("/total", totalRouter);
 app.use("/minus", minusRouter);
 app.use("/category", categoryRouter);
 
-app.listen(8080, () => {
+app.listen(process.env.PORT_KEY, () => {
   console.log("Server start on : ", process.env.PORT_KEY);
 });
