@@ -1,5 +1,5 @@
 import {AppDataSource} from '../data-source'
-import { Asset_minus } from "../Entity/Asset_minus";
+import { Asset_minus } from "../entity/asset_minus";
 import { Request, Response } from 'express';
 
 export const addMinus = async (req : Request,res : Response) => {
@@ -9,7 +9,6 @@ export const addMinus = async (req : Request,res : Response) => {
     try{
       const addMinus = await minusRepository.createQueryBuilder('asset_minus')
       .insert()
-      .into('asset_minus')
       .values({
         minus : minus,
         title : title, 

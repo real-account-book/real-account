@@ -1,4 +1,4 @@
-import { getTotalPlus,getTotalMinus } from "../Controller/TotalContrloller";
+import { getTotalPlus,getTotalMinus } from "../Controller/totalContrloller";
 import express, {Router} from "express";
 
 export const totalRouter : Router = express.Router()

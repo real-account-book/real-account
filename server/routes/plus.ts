@@ -1,4 +1,4 @@
-import { addPlus, deletePlus, updatePlus } from "../Controller/PlusController";
+import { addPlus, deletePlus, updatePlus } from "../Controller/plusController";
 import express, {Router} from "express";
 
 export const plusRouter : Router = express.Router()

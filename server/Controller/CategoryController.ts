@@ -1,6 +1,6 @@
 import {AppDataSource} from '../data-source'
 import { Request, Response } from 'express';
-import { Categories } from '../Entity/Categories';
+import { Categories } from '../entity/categories';
 
 export const addCategory = async (req : Request,res : Response) => {
     const {category_name} = req.body;
@@ -9,7 +9,6 @@ export const addCategory = async (req : Request,res : Response) => {
     try{
         const addCategory = await categoryRepository.createQueryBuilder('categories')
         .insert()
-        .into('categories')
         .values({
             category_name : category_name
         })
@@ -21,6 +20,10 @@ export const addCategory = async (req : Request,res : Response) => {
         res.status(500).json({error: "Internal Server Error"})
     }
 }
+
+// asset_minus에 카테고리가 있으면
+// error 출력
+// asset_minus 검색코드 추가
 
 // export const deleteCategory = async (req : Request,res : Response) => {
 //     const {category_id} = req.params;
@@ -43,7 +46,8 @@ export const addCategory = async (req : Request,res : Response) => {
 export const getCategory = async (req : Request,res : Response) => {
     const {categoryId} = req.params;
     const categoryRepository = AppDataSource.getRepository(Categories)
-
+    console.log(categoryId);
+    
     try{
         const query = categoryRepository.createQueryBuilder('categories')
         .select(['categories.category_id','categories.category_name'])
@@ -51,6 +55,7 @@ export const getCategory = async (req : Request,res : Response) => {
             query.where("categories.category_id = :category_id", {category_id : categoryId})
         }
         const getCategory = await query.getMany();
+  
         res.json(getCategory)
         
     }catch(err){
