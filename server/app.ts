@@ -6,6 +6,7 @@ import { minusRouter } from "./routes/minus";
 import { categoryRouter } from "./routes/categories";
 import dotenv from "dotenv";
 import cors from "cors";
+
 dotenv.config();
 
 AppDataSource.initialize()
@@ -22,8 +23,7 @@ app.use(cors({
   credentials: true, 
 }));
 
-app.use(express.json());
-
+// app.use('/')
 app.use("/plus", plusRouter);
 app.use("/total", totalRouter);
 app.use("/minus", minusRouter);
