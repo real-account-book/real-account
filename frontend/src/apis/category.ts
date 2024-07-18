@@ -11,17 +11,9 @@ type TAddCategoryProps = {
   category_name: string
 }
 
-// 카테고리 전체 조회
-export type TGetAllCategories = () => Promise<any>;
-// 카테고리 개별 조회
-export type TGetCategory = (payload: TGetCategoryProps) => Promise<any>;
-// 카테고리 항목 추가
-export type TAddCategory = (payload: TAddCategoryProps) => Promise<any>;
-
-
 {/* logics */}
 // 카테고리 전체 조회
-export const getAllCategories: TGetAllCategories = async () => {
+export const getAllCategories = async () => {
   try {
     const response = await fetch(CATEGORY_URL, {
       method: 'GET',
@@ -38,7 +30,7 @@ export const getAllCategories: TGetAllCategories = async () => {
 };
 
 // 카테고리 개별 조회
-export const getCategory: TGetCategory = async (payload) => {
+export const getCategory = async (payload: TGetCategoryProps) => {
   try {
     const response = await fetch(`${CATEGORY_URL}/${payload.category_id}`, {
       method: 'GET',
@@ -55,7 +47,7 @@ export const getCategory: TGetCategory = async (payload) => {
 };
 
 // 카테고리 항목 추가
-export const addCategory: TAddCategory =  async (payload) => {
+export const addCategory =  async (payload: TAddCategoryProps) => {
   try {
     const response = await fetch(CATEGORY_URL, {
       method: 'GET',
