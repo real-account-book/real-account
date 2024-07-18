@@ -5,6 +5,7 @@ import { totalRouter } from "./routes/total";
 import { minusRouter } from "./routes/minus";
 import { categoryRouter } from "./routes/categories";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 AppDataSource.initialize()
@@ -14,6 +15,12 @@ AppDataSource.initialize()
   .catch((error) => console.log(error));
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
 
 app.use(express.json());
 
