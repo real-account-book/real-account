@@ -23,7 +23,7 @@ type TMinusContents  = {
 
 type TUpdateMinusProps = {
   minus_id: number,
-  data: TMinusContents
+  payload: TMinusContents
 }
 
 // 지출 내역 추가
@@ -62,19 +62,19 @@ export const deleteMinus = async ({minus_id}: TDeleteProps) => {
 }
 
 // 지출 내역 수정
-export const updateMinus = async ({minus_id, data}: TUpdateMinusProps) => {
+export const updateMinus = async ({minus_id, payload}: TUpdateMinusProps) => {
   try {
     const response = await fetch(`${MINUS_URL}/${minus_id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify(data)
+      body: JSON.stringify(payload)
     });
     if (!response.ok) {
       throw new Error(`Error status: ${response.status}`)
     }
     return await response.json();
   } catch (err) {
-    console.error("Error fetching deleteMinus:", err);
+    console.error("Error fetching updateMinus:", err);
     throw err;
   }
 }

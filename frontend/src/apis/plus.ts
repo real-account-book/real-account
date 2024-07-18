@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { BASE_URL } from "./BASE_URL";
 const PLUS_URL = `${BASE_URL}/plus`;
 

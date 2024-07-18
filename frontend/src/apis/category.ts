@@ -1,8 +1,6 @@
-import axios from 'axios';
 import { BASE_URL } from "./BASE_URL";
 const CATEGORY_URL = `${BASE_URL}/category`;
 
-{/* types*/}
 type TGetCategoryProps = {
   category_id: number
 }
@@ -11,7 +9,6 @@ type TAddCategoryProps = {
   category_name: string
 }
 
-{/* logics */}
 // 카테고리 전체 조회
 export const getAllCategories = async () => {
   try {
@@ -30,9 +27,9 @@ export const getAllCategories = async () => {
 };
 
 // 카테고리 개별 조회
-export const getCategory = async (payload: TGetCategoryProps) => {
+export const getCategory = async ({category_id}: TGetCategoryProps) => {
   try {
-    const response = await fetch(`${CATEGORY_URL}/${payload.category_id}`, {
+    const response = await fetch(`${CATEGORY_URL}/${category_id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json',},
     })
@@ -50,7 +47,7 @@ export const getCategory = async (payload: TGetCategoryProps) => {
 export const addCategory =  async (payload: TAddCategoryProps) => {
   try {
     const response = await fetch(CATEGORY_URL, {
-      method: 'GET',
+      method: 'POST',
       headers: {'Content-Type': 'application/json',},
       body: JSON.stringify(payload)
     })
