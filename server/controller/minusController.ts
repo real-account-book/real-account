@@ -16,8 +16,7 @@ export const addMinus = async (req : Request,res : Response) => {
         uploaded_at : uploaded_at,
         category: category
       })
-      .execute()
-
+      .execute()      
       res.json(addMinus)
     }catch(err){
         console.error('Error fetching data: ', err);
