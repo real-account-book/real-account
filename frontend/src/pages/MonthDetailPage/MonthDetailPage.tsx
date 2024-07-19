@@ -1,12 +1,21 @@
+import { useEffect } from 'react';
 import CategoryPieChart from '../../components/CategoryPieChart/CategoryPieChart';
 import MonthCalendarSmall from '../../components/MonthCalendarSmall/MonthCalendarSmall';
 import MonthDetailView from '../../components/MonthDetailView/MonthDetailView';
 import { bodyContents, container, titleBar } from './MonthDetailPage.css';
+import { getMinus, getPlus } from '../../apis/total';
+import { dateFormatter } from '../../utils/dateFormatter';
 
 const MonthDetailPage = () => {
   const date: string = location.pathname.split('/')[2];
   const year: string = date.slice(0, 4);
   const month: string = date.slice(4);
+
+  useEffect(() => {
+    const date = dateFormatter(2024, 7, 1);
+    getPlus(date, '2024-07-30').then((res) => console.log(res))
+    getMinus('2024-07-01', '2024-07-30').then((res) => console.log(res))
+  }, [])
 
   return(
     <div className={container}>

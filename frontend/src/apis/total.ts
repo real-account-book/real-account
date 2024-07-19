@@ -1,19 +1,12 @@
 import { BASE_URL } from "./BASE_URL";
 const TOTAL_URL = `${BASE_URL}/total`;
 
-type TDateProps = {
-  year: number,
-  month: number,
-  day: number
-}
-
 // 일정기간 전체 입금 내역 조회
-export const getPlus = async (payload: TDateProps) => {
+export const getPlus = async (startAt: string, endAt: string) => {
   try {
-    const response = await fetch(`${TOTAL_URL}/plus`, {
+    const response = await fetch(`${TOTAL_URL}/plus/${startAt}/${endAt}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify(payload)
     });
     if (!response.ok) {
       throw new Error(`Error status: ${response.status}`)
@@ -26,12 +19,11 @@ export const getPlus = async (payload: TDateProps) => {
 };  
 
 // 일정기간 전체 출금 내역 조회
-export const getMinus = async (payload: TDateProps) => {
+export const getMinus = async (startAt: string, endAt: string) => {
   try {
-    const response = await fetch(`${TOTAL_URL}/minus`, {
+    const response = await fetch(`${TOTAL_URL}/minus/${startAt}/${endAt}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify(payload)
     });
     if (!response.ok) {
       throw new Error(`Error status: ${response.status}`)
