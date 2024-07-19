@@ -1,9 +1,7 @@
-import React, { FC } from 'react';
+import { FC } from "react";
 
 const YearListPage: FC = () => {
-  return(
-    <div>YearListPage</div>
-  );
-}
+  return <div>YearListPage</div>;
+};
 
 export default YearListPage;
