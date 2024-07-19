@@ -1,4 +1,5 @@
 ### MonthList보기
+# app.tsx에
 import React, { FC } from 'react';
 import Header from './components/Header/Header.tsx';
 import MonthHeader from './components/MonthHeader/MonthHeader.tsx';
@@ -24,6 +25,7 @@ export default App;
 
 
 ### YearList보기
+# app.tsx에
 import React, { FC } from 'react';
 import Header from './components/Header/Header.tsx';
 import YearNavigator from './components/YearNavigator/YearNavigator.tsx';
