@@ -6,6 +6,7 @@ import { minusRouter } from "./routes/minus";
 import { categoryRouter } from "./routes/categories";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
 
@@ -17,17 +18,28 @@ AppDataSource.initialize()
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 
 // app.use('/')
-app.use("/plus", plusRouter);
-app.use("/total", totalRouter);
-app.use("/minus", minusRouter);
-app.use("/category", categoryRouter);
+app.use("/api/plus", plusRouter);
+app.use("/api/total", totalRouter);
+app.use("/api/minus", minusRouter);
+app.use("/api/category", categoryRouter);
+
+let staticPath = path.join(__dirname, "..", "..", "frontend", "dist");
+
+app.use("/", express.static(staticPath));
+app.get("*", function (req, res) {
+  res.sendFile("index.html", {
+    root: staticPath,
+  });
+});
 
 app.listen(process.env.PORT_KEY, () => {
   console.log("Server start on : ", process.env.PORT_KEY);
