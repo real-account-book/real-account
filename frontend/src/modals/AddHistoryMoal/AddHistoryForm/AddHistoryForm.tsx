@@ -1,8 +1,18 @@
 import { Button, DatePicker, Form, Input, Select, Space } from "antd";
+import { useEffect, useState } from "react";
+import { getAllCategories } from "../../../apis/category";
+import { dateFormatter } from "../../../utils/dateFormatter";
+import { addMinus } from "../../../apis/minus";
+import { addPlus } from "../../../apis/plus";
 
 type TAddHistoryForm = {
   history: "plus" | "minus";
 };
+
+type TCategory = {
+  category_id: number;
+  category_name: string;
+}
 
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
@@ -12,6 +22,11 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
   const { Option } = Select;
 
   const [form] = Form.useForm();
+  const [categories, setCategories] = useState<TCategory[]>([])
+
+  useEffect(() => {
+    getAllCategories().then(res => setCategories(res))
+  }, [])
 
   const config = {
     rules: [
@@ -39,16 +54,34 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
+    let data;
+    if (history === 'plus') {
+      data = { plus : values['금액']}
+    } else { data = { 
+      minus : values['금액'],
+      category: values['지출 카테고리']
+    }}
+
+    const selectedDate = values['datepicker']
+    const date = dateFormatter(selectedDate.year(), selectedDate.month() + 1, selectedDate.date());
+
+    let payload = {
+      ...data,
+      title: history === 'plus' ? values['수익처'] : values['지출처'],
+      content: '',
+      uploaded_at: date
+    }
+    if (history === "plus") {
+      addPlus(payload)
+    } else if (history === "minus") {
+      addMinus(payload)
+    }
+
   };
 
   const onReset = () => {
     form.resetFields();
   };
-
-  // const onFill = () => {
-  //   form.setFieldsValue({ note: "Hello world!", gender: "male" });
-  // };
 
   return (
     <>
@@ -59,24 +92,28 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
       >
-        <Form.Item name="금액" label="금액" rules={[{ required: true }]}>
+        <Form.Item 
+          name="금액"
+          label="금액" 
+          rules={[{ required: true }]} 
+        >
           <Input />
         </Form.Item>
         <Form.Item
-          name={history === "plus" ? "사용처" : "수익처"}
-          label={history === "plus" ? "사용처" : "수익처"}
+          name={history === "plus" ? "수익처" : "지출처"}
+          label={history === "plus" ? "수익처" : "지출처"}
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name="date-picker"
-          label={history === "plus" ? "지출 일자" : "수익 일자"}
+          name='datepicker'
+          label={history === "plus" ? "수익 일자" : "지출 일자"}
           {...config}
         >
           <DatePicker />
         </Form.Item>
-        {history === "plus" && (
+        {history === "minus" && (
           <>
             <Form.Item
               name="지출 카테고리"
@@ -88,9 +125,9 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
                 onChange={onGenderChange}
                 allowClear
               >
-                <Option value="male">male</Option>
-                <Option value="female">female</Option>
-                <Option value="other">other</Option>
+                {categories.map(({category_id, category_name}: TCategory) => (
+                  <Option key={category_id} value={category_id}>{category_name}</Option>
+                ))}
               </Select>
             </Form.Item>
             <Form.Item
@@ -122,9 +159,6 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
             <Button htmlType="button" onClick={onReset}>
               초기화
             </Button>
-            {/* <Button type="link" htmlType="button" onClick={onFill}>
-              Fill form
-            </Button> */}
           </Space>
         </Form.Item>
       </Form>

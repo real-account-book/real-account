@@ -11,12 +11,12 @@ const items: TabsProps["items"] = [
   {
     key: "1",
     label: "지출",
-    children: <AddHistoryForm history="plus" />,
+    children: <AddHistoryForm history="minus" />,
   },
   {
     key: "2",
     label: "수입",
-    children: <AddHistoryForm history="minus" />,
+    children: <AddHistoryForm history="plus" />,
   },
 ];
 
