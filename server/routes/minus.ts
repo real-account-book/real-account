@@ -1,6 +1,5 @@
 import express, {Router} from "express";
 import { addMinus,deleteMinus,updateMinus} from "../controller/minusController";
-import { check, param } from "express-validator";
 import { validate } from "../validator/validator";
 import { withCheckMsg } from "../validator/validator";
 
@@ -17,7 +16,7 @@ minusRouter.post('/',[
 
 minusRouter.route('/:minusId')
 .delete([
-    param('minusId').notEmpty().isInt().withMessage("minusId 형식 오류"),
+    withCheckMsg('minusId').notEmpty().isInt(),
     validate
 ],deleteMinus)
 .put([

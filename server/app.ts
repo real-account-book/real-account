@@ -7,7 +7,7 @@ import { categoryRouter } from "./routes/categories";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
-
+import { Categories } from "./entity/categories";
 dotenv.config();
 
 AppDataSource.initialize()

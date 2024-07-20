@@ -1,6 +1,5 @@
 import express, {Router} from "express";
 import { addCategory, deleteCategory, getCategory } from "../controller/categoryController";
-import { body, param } from "express-validator";
 import { validate } from "../validator/validator";
 import { withCheckMsg } from "../validator/validator"; 
 
