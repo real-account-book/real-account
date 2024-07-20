@@ -10,18 +10,36 @@ $ npm run dev
 
 - run only frontend
 ```bash
-# root directory
+# (Dev Run) root directory
 $ npm run dev:frontend
-# or move '/frontend' directory
+# (Dev Run) or move '/frontend' directory
 $ npm run dev
+
+# (Build) root directory
+$ npm run build:frontend
+# (Build) or move '/frontend' directory
+$ npm run build
 ```
 
 - run only server
 ```bash
-# root directory
+# (Dev Run) root directory
 $ npm run dev:server
-# or move '/server' directory
+# (Dev Run) or move '/server' directory
 $ npm run dev
+
+# (Build) root directory
+$ npm run build:server
+# (Build) or move '/server' directory
+$ npm run build
+```
+
+- run app
+```bash
+# Move to '/server'
+$ cd /server
+# Before execution, the frontend and server must be built.
+$ npm run start
 ```
 
 

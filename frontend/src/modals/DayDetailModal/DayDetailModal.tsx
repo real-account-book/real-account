@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Modal, Button } from "antd";
-import BoardView from "../../components/BoardView/BoardView.tsx";
 import { PlusOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+import BoardView from "../../components/BoardView/BoardView.tsx";
+import useAddStateStore from "../../store/addStateStore.ts";
+import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
 import { addHistoryButton, lowerContainer } from "./DayDetailModal.css.ts";
-import AddHistoryModal from '../AddHistoryMoal/AddHistoryModal.tsx';
-import useAddStateStore from '../../store/addStateStore.ts';
 
 type TDayModalProps = {
   dayModalOpen: boolean;
@@ -12,11 +11,17 @@ type TDayModalProps = {
   selectedDate: number;
   selectedMonth: number;
   setDayModalOpen: (dayModalOpen: boolean) => void;
-}
+};
 
-const DayDetailModal = ({dayModalOpen, loading, selectedDate, selectedMonth, setDayModalOpen}: TDayModalProps) => {
+const DayDetailModal = ({
+  dayModalOpen,
+  loading,
+  selectedDate,
+  selectedMonth,
+  setDayModalOpen,
+}: TDayModalProps) => {
   const month: number = selectedMonth + 1;
-  const { addModalState, handleAddModalState } = useAddStateStore();
+  const { handleAddModalState } = useAddStateStore();
 
   const closeModal = () => {
     setDayModalOpen(false);
@@ -24,42 +29,46 @@ const DayDetailModal = ({dayModalOpen, loading, selectedDate, selectedMonth, set
 
   const modalStyles = {
     header: {
-      fontSize: '100px',
+      fontSize: "100px",
       borderLeft: `5px solid rgba(105, 118, 235, 1)`,
       borderRadius: 0,
       paddingInlineStart: 15,
     },
   };
-  
-  return(
-    <Modal title={`${month}월 ${selectedDate}일`} 
+
+  return (
+    <Modal
+      title={`${month}월 ${selectedDate}일`}
       open={dayModalOpen}
-      loading={loading} 
+      loading={loading}
       onCancel={closeModal}
       styles={modalStyles}
       footer={[
         <Button key="back" onClick={closeModal}>
           닫기
-        </Button>
+        </Button>,
       ]}
     >
       <BoardView />
 
       <div className={lowerContainer}>
         <button className={addHistoryButton} onClick={handleAddModalState}>
-          <div><PlusOutlined /></div>
+          <div>
+            <PlusOutlined />
+          </div>
           <p>기록 추가</p>
         </button>
         <AddHistoryModal />
 
         <div>
           <div>+ 13,504 원</div>
-          <div>24년 {month}월 {selectedDate}일 합계</div>
+          <div>
+            24년 {month}월 {selectedDate}일 합계
+          </div>
         </div>
       </div>
     </Modal>
   );
-}
-
+};
 
 export default DayDetailModal;
