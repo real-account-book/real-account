@@ -8,7 +8,7 @@ const MonthHeader: FC = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate('/'); 
+    navigate('/detail/:date'); 
   };
 
   return(
