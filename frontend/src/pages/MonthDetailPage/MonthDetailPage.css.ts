@@ -13,3 +13,7 @@ export const bodyContents = style({
   display: `flex`,
   justifyContent: `space-between`
 });
+
+export const addButton = style({
+  display: `flex`,
+});
