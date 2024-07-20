@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Unique } from "typeorm"
 import { Asset_minus } from "./asset_minus"
 
 
 @Entity()
+@Unique(["category_name"])
 export class Categories {
     @PrimaryGeneratedColumn({type:"int"})
     category_id : number
