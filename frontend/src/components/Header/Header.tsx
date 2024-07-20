@@ -2,8 +2,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import React, { FC } from 'react';
 import { addButton, header, priceContainer, blueText, redText } from './Header.css';
 
+
 const Header: FC = () => {
-  return(
+  return (
     <header className={header}>
       <div>2024년 소비</div>
 
@@ -14,11 +15,13 @@ const Header: FC = () => {
       </div>
 
       <button className={addButton}>
-        <div><PlusOutlined /></div>
+        <div>
+          <PlusOutlined />
+        </div>
         <div>내역 추가</div>
       </button>
     </header>
   );
-}
+};
 
 export default Header;

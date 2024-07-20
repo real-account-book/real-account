@@ -1,34 +1,38 @@
-import React from 'react';
-import { Button, DatePicker, Modal, Form, Input, Select, Space } from 'antd';
+import { Button, DatePicker, Form, Input, Select, Space } from "antd";
 
 type TAddHistoryForm = {
-  history: 'plus' | 'minus'
+  history: "plus" | "minus";
 };
 
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const AddHistoryForm = ({history}: TAddHistoryForm) => {
-  
+const AddHistoryForm = ({ history }: TAddHistoryForm) => {
   const { Option } = Select;
 
   const [form] = Form.useForm();
 
   const config = {
-    rules: [{ type: 'object' as const, required: true, message: 'Please select time!' }],
+    rules: [
+      {
+        type: "object" as const,
+        required: true,
+        message: "Please select time!",
+      },
+    ],
   };
 
   const onGenderChange = (value: string) => {
     switch (value) {
-      case 'male':
-        form.setFieldsValue({ note: 'Hi, man!' });
+      case "male":
+        form.setFieldsValue({ note: "Hi, man!" });
         break;
-      case 'female':
-        form.setFieldsValue({ note: 'Hi, lady!' });
+      case "female":
+        form.setFieldsValue({ note: "Hi, lady!" });
         break;
-      case 'other':
-        form.setFieldsValue({ note: 'Hi there!' });
+      case "other":
+        form.setFieldsValue({ note: "Hi there!" });
         break;
       default:
     }
@@ -42,15 +46,14 @@ const AddHistoryForm = ({history}: TAddHistoryForm) => {
     form.resetFields();
   };
 
-  const onFill = () => {
-    form.setFieldsValue({ note: 'Hello world!', gender: 'male' });
-  };
+  // const onFill = () => {
+  //   form.setFieldsValue({ note: "Hello world!", gender: "male" });
+  // };
 
-  
-  return(
+  return (
     <>
       <Form
-        layout='vertical'
+        layout="vertical"
         form={form}
         name="control-hooks"
         onFinish={onFinish}
@@ -59,38 +62,57 @@ const AddHistoryForm = ({history}: TAddHistoryForm) => {
         <Form.Item name="금액" label="금액" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item name={history === 'plus' ? '사용처' : '수익처'} label={history === 'plus' ? '사용처' : '수익처'} rules={[{ required: true }]}>
+        <Form.Item
+          name={history === "plus" ? "사용처" : "수익처"}
+          label={history === "plus" ? "사용처" : "수익처"}
+          rules={[{ required: true }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item name="date-picker" label={history === 'plus' ? '지출 일자' : '수익 일자'} {...config}>
+        <Form.Item
+          name="date-picker"
+          label={history === "plus" ? "지출 일자" : "수익 일자"}
+          {...config}
+        >
           <DatePicker />
         </Form.Item>
-        {history === 'plus' && (
+        {history === "plus" && (
           <>
-            <Form.Item name="지출 카테고리" label="지출 카테고리" rules={[{ required: true }]}>
-            <Select
-              placeholder="지출 내역 카테고리를 선택해주세요"
-              onChange={onGenderChange}
-              allowClear
+            <Form.Item
+              name="지출 카테고리"
+              label="지출 카테고리"
+              rules={[{ required: true }]}
             >
-              <Option value="male">male</Option>
-              <Option value="female">female</Option>
-              <Option value="other">other</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            noStyle
-            shouldUpdate={(prevValues, currentValues) => prevValues.gender !== currentValues.gender}
-          >
-            {({ getFieldValue }) =>
-              getFieldValue('gender') === 'other' ? (
-                <Form.Item name="customizeGender" label="Customize Gender" rules={[{ required: true }]}>
-                  <Input />
-                </Form.Item>
-              ) : null
-            }
-          </Form.Item>
-        </>)}
+              <Select
+                placeholder="지출 내역 카테고리를 선택해주세요"
+                onChange={onGenderChange}
+                allowClear
+              >
+                <Option value="male">male</Option>
+                <Option value="female">female</Option>
+                <Option value="other">other</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, currentValues) =>
+                prevValues.gender !== currentValues.gender
+              }
+            >
+              {({ getFieldValue }) =>
+                getFieldValue("gender") === "other" ? (
+                  <Form.Item
+                    name="customizeGender"
+                    label="Customize Gender"
+                    rules={[{ required: true }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                ) : null
+              }
+            </Form.Item>
+          </>
+        )}
 
         <Form.Item {...tailLayout}>
           <Space>
@@ -108,6 +130,6 @@ const AddHistoryForm = ({history}: TAddHistoryForm) => {
       </Form>
     </>
   );
-}
+};
 
 export default AddHistoryForm;

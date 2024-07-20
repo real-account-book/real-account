@@ -4,19 +4,14 @@ import { Asset_plus } from "../entity/asset_plus";
 import { Request, Response } from 'express';
 
 export const getTotalPlus = async (req : Request,res : Response) => {
-    const {year,month,day} = req.body;
+
+    // body -> params
+    const {start_at, end_at} = req.params; 
     const plusRepository = AppDataSource.getRepository(Asset_plus)
-    
     try{
         const query = plusRepository.createQueryBuilder('asset_plus')
         .select(['asset_plus.uploaded_at','asset_plus.plus', 'asset_plus.title', 'asset_plus.content'])
-          .where('YEAR(asset_plus.uploaded_at) = :year', { year })
-        if(month){
-            query.andWhere('MONTH(asset_plus.uploaded_at) = :month', { month })
-        }
-        if(day){
-            query.andWhere('DAY(asset_plus.uploaded_at) = :day', {day})
-        }
+        .where(`asset_plus.uploaded_at >= :start_at AND asset_plus.uploaded_at <= :end_at`, {  start_at: start_at, end_at: end_at })
         const getTotalPlus = await query.getMany();
 
         res.json(getTotalPlus)
@@ -27,7 +22,7 @@ export const getTotalPlus = async (req : Request,res : Response) => {
 }
 
 export const getTotalMinus = async (req : Request,res : Response) => {
-    const {year,month,day} = req.body;
+    const {start_at, end_at, categoryId} = req.params;
     const minusRepository = AppDataSource.getRepository(Asset_minus)
     
     try{
@@ -35,15 +30,12 @@ export const getTotalMinus = async (req : Request,res : Response) => {
         .select(['asset_minus.uploaded_at','asset_minus.minus', 'asset_minus.title', 'asset_minus.content'])
         .leftJoinAndSelect("asset_minus.category","category")
         .addSelect('category.category_name')
-          .where('YEAR(asset_minus.uploaded_at) = :year', { year })
-        if(month){
-            query.andWhere('MONTH(asset_minus.uploaded_at) = :month', { month })
-        } 
-        if(day){
-            query.andWhere('DAY(asset_minus.uploaded_at) = :day', { day })
+        .where(`asset_minus.uploaded_at >= :start_at AND asset_minus.uploaded_at <= :end_at`, {  start_at: start_at, end_at: end_at })
+        if(categoryId){
+            query.andWhere('asset_minus.category = :categoryId', {categoryId})
         }
         const getTotalMinus =await query.getMany();
-
+        
       res.json(getTotalMinus)
     }catch(err){
         console.error('Error fetching data: ', err);

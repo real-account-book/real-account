@@ -1,10 +1,7 @@
-import React from 'react';
-import DetailView from './DetailView/DetailView';
+import DetailView from "./DetailView/DetailView";
 
 const BoardView = () => {
-  return(
-    <DetailView />
-  );
-}
+  return <DetailView />;
+};
 
 export default BoardView;

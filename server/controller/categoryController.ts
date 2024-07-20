@@ -1,6 +1,8 @@
 import {AppDataSource} from '../data-source'
 import { Request, Response } from 'express';
 import { Categories } from '../entity/categories';
+import { Asset_minus } from '../entity/asset_minus';
+import { StatusCodes } from 'http-status-codes';
 
 export const addCategory = async (req : Request,res : Response) => {
     const {category_name} = req.body;
@@ -17,31 +19,41 @@ export const addCategory = async (req : Request,res : Response) => {
 
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(500).json({error: "Internal Server Error"})
+        res.status(StatusCodes.BAD_REQUEST).json({error: "Internal Server Error"})
     }
 }
 
-// asset_minus에 카테고리가 있으면
-// error 출력
-// asset_minus 검색코드 추가
 
-// export const deleteCategory = async (req : Request,res : Response) => {
-//     const {category_id} = req.params;
-//     const categoryRepository = AppDataSource.getRepository(Categories)
+export const deleteCategory = async (req : Request,res : Response) => {
+    const {categoryId} = req.params;
+    const categoryRepository = AppDataSource.getRepository(Categories)
+    const minusRepository = AppDataSource.getRepository(Asset_minus)
 
-//     try{
-//         const deleteCategory = await categoryRepository.createQueryBuilder('categories')
-//         .delete()
-//         .from('categories')
-//         .where("categories.category_id = :category_id", {category_id : category_id})
-//         .execute();
+    try{
 
-//         res.json(deleteCategory)
-//     }catch(err){
-//         console.error('Error fetching data: ', err);
-//         res.status(500).json({error: "Internal Server Error"})
-//     }
-// }
+        const categoryInUse =  await minusRepository.createQueryBuilder('asset_minus')
+        .select(`asset_minus`)
+        .where(`asset_minus.category = :category_id`, {category_id : categoryId})
+        .getOne()
+        if(categoryInUse){
+            return res.status(StatusCodes.BAD_REQUEST).json({error: "카테고리가 포함된 출금내역 먼저 삭제하세요"})
+        }
+        
+     
+        const deleteCategory = await categoryRepository.createQueryBuilder('categories')
+        .delete()
+        .from('categories')
+        .where("categories.category_id = :category_id", {category_id : categoryId})
+        .execute();
+
+        res.json(deleteCategory)
+        
+     
+    }catch(err){
+        console.error('Error fetching data: ', err);
+        res.status(500).json({error: "Internal Server Error"})
+    }
+}
 
 export const getCategory = async (req : Request,res : Response) => {
     const {categoryId} = req.params;
