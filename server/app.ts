@@ -1,5 +1,5 @@
 import { AppDataSource } from "./data-source";
-import express, { Request, Response } from "express";
+import express from "express";
 import  plusRouter from "./routes/plus";
 import  totalRouter from "./routes/total";
 import  minusRouter from "./routes/minus";
