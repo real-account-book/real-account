@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import {AppDataSource} from '../data-source'
 import { Asset_plus } from "../entity/asset_plus";
 import { Request, Response } from 'express';
-import { useSearchPlus } from '../migration/useSearchMinus';
+import { useSearchPlus } from '../migration/useSearch';
 
 export const addPlus = async (req : Request,res : Response) => {
     const {plus, title, content, uploaded_at} = req.body;
@@ -68,7 +68,7 @@ export const updatePlus = async (req : Request,res : Response) => {
       if(!plusInUse){
         return res.status(StatusCodes.BAD_REQUEST).json({error: "입금내역이 없습니다!!"})
       }
-      
+
       const updatePlus = await plusRepository.createQueryBuilder('asset_plus')
       .update()
       .set({plus: plus, title: title, content: content, uploaded_at: uploaded_at})

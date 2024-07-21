@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import {AppDataSource} from '../data-source'
 import { Asset_minus } from "../entity/asset_minus";
 import { Request, Response } from 'express';
-import { useSearchMinus } from '../migration/useSearchMinus';
+import { useSearchMinus } from '../migration/useSearch';
 
 export const addMinus = async (req : Request,res : Response) => {
     const {minus, category , title, content, uploaded_at} = req.body;
@@ -22,7 +22,7 @@ export const addMinus = async (req : Request,res : Response) => {
       if(addMinus.raw >= 1){
         return res.status(StatusCodes.OK).json(addMinus)
       }
-      
+
     }catch(err){
         console.error('Error fetching data: ', err);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR)
