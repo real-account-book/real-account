@@ -4,6 +4,10 @@ import BoardView from "../../components/BoardView/BoardView.tsx";
 import useAddStateStore from "../../store/addStateStore.ts";
 import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
 import { addHistoryButton, lowerContainer } from "./DayDetailModal.css.ts";
+import { useEffect, useState } from "react";
+import { getMinus, getPlus } from "../../apis/total.ts";
+import { dateFormatter } from "../../utils/dateFormatter.ts";
+import { TMinusHistory, TPlusHistory } from "../../types/history.type.ts";
 
 type TDayModalProps = {
   dayModalOpen: boolean;
@@ -49,7 +53,7 @@ const DayDetailModal = ({
         </Button>,
       ]}
     >
-      <BoardView />
+      {/* <BoardView /> */}
 
       <div className={lowerContainer}>
         <button className={addHistoryButton} onClick={handleAddModalState}>
