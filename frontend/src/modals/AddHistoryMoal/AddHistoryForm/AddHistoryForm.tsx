@@ -4,9 +4,11 @@ import { getAllCategories } from "../../../apis/category";
 import { dateFormatter } from "../../../utils/dateFormatter";
 import { addMinus } from "../../../apis/minus";
 import { addPlus } from "../../../apis/plus";
+import useAddStateStore from "../../../store/addStateStore";
 
 type TAddHistoryForm = {
   history: "plus" | "minus";
+  openNotification: any;
 };
 
 type TCategory = {
@@ -18,8 +20,9 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const AddHistoryForm = ({ history }: TAddHistoryForm) => {
+const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
+  const { handleAddModalState } = useAddStateStore();
 
   const [form] = Form.useForm();
   const [categories, setCategories] = useState<TCategory[]>([])
@@ -65,18 +68,24 @@ const AddHistoryForm = ({ history }: TAddHistoryForm) => {
     const selectedDate = values['datepicker']
     const date = dateFormatter(selectedDate.year(), selectedDate.month() + 1, selectedDate.date());
 
-    let payload = {
+    let payload: any = {
       ...data,
       title: history === 'plus' ? values['수익처'] : values['지출처'],
       content: '',
       uploaded_at: date
     }
     if (history === "plus") {
-      addPlus(payload)
+      addPlus(payload).then(() => successFinish());
     } else if (history === "minus") {
-      addMinus(payload)
+      addMinus(payload).then(() => successFinish());
     }
+  };
 
+  const successFinish = () => {
+    handleAddModalState();
+    setTimeout(() => {
+      openNotification('bottomRight');
+    }, 300)
   };
 
   const onReset = () => {
