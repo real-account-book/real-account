@@ -3,22 +3,23 @@ import { addCategory, deleteCategory, getCategory } from "../controller/category
 import { validate } from "../validator/validator";
 import { withCheckMsg } from "../validator/validator"; 
 
-export const categoryRouter : Router = express.Router()
+const categoryRouter : Router = express.Router()
 categoryRouter.use(express.json());
 
+const checkCategoryId = [
+    withCheckMsg('categoryId').notEmpty().isNumeric(),
+    validate
+]
 categoryRouter.route('/')
 .post([
-    withCheckMsg('category_name').notEmpty().isString()
-    ,validate
+    withCheckMsg('category_name').notEmpty().isString(),
+    validate
 ],addCategory)
 .get(getCategory)
 
 categoryRouter.route('/:categoryId')
-.delete([
-    withCheckMsg('categoryId').notEmpty().isInt(),
-    validate
-],deleteCategory)
-.get([
-    withCheckMsg('categoryId').notEmpty().isInt(),
-    validate
-],getCategory)
+.delete(...checkCategoryId,deleteCategory)
+.get(...checkCategoryId,getCategory)
+
+
+export default categoryRouter
