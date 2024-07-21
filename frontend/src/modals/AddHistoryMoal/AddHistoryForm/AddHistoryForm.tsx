@@ -1,10 +1,13 @@
-import { Button, DatePicker, Form, Input, Select, Space } from "antd";
+import { Button, DatePicker, Form, Input, Select, Space, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../../apis/category";
 import { dateFormatter } from "../../../utils/dateFormatter";
 import { addMinus } from "../../../apis/minus";
 import { addPlus } from "../../../apis/plus";
 import useAddStateStore from "../../../store/addStateStore";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import CategoryModal from "../../CategoryModal/CategoryModal";
 
 type TAddHistoryForm = {
   history: "plus" | "minus";
@@ -19,6 +22,8 @@ type TCategory = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
+
+const { confirm } = Modal;
 
 const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
@@ -41,17 +46,8 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
     ],
   };
 
-  const onGenderChange = (value: string) => {
+  const onCategoryChange = (value: string) => {
     switch (value) {
-      case "male":
-        form.setFieldsValue({ note: "Hi, man!" });
-        break;
-      case "female":
-        form.setFieldsValue({ note: "Hi, lady!" });
-        break;
-      case "other":
-        form.setFieldsValue({ note: "Hi there!" });
-        break;
       default:
     }
   };
@@ -71,7 +67,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
     let payload: any = {
       ...data,
       title: history === 'plus' ? values['수익처'] : values['지출처'],
-      content: '',
+      content: values['메모'],
       uploaded_at: date
     }
     if (history === "plus") {
@@ -91,6 +87,8 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const onReset = () => {
     form.resetFields();
   };
+
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -116,6 +114,13 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
           <Input />
         </Form.Item>
         <Form.Item
+          name='메모'
+          label='메모'
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
           name='datepicker'
           label={history === "plus" ? "수익 일자" : "지출 일자"}
           {...config}
@@ -131,7 +136,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
             >
               <Select
                 placeholder="지출 내역 카테고리를 선택해주세요"
-                onChange={onGenderChange}
+                onChange={onCategoryChange}
                 allowClear
               >
                 {categories.map(({category_id, category_name}: TCategory) => (
@@ -157,6 +162,11 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
                 ) : null
               }
             </Form.Item>
+            <button onClick={() => setOpen(!open)}>
+              <PlusCircleOutlined />
+              <div>카테고리 편집</div>
+            </button>
+            <CategoryModal open={open} setOpen={setOpen} categories={categories} setCategories={setCategories} />
           </>
         )}
 
