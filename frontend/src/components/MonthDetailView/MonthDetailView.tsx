@@ -21,23 +21,55 @@ type TMonthDetailViewProps = {
 const { RangePicker } = DatePicker;
 
 const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
+  const [filterCategory, setFilterCategory] = useState<number>(0);
+  const [filterHistory, setFilterHistory] = useState<string>('total')
+  
   const dateFormat = "YYYY/MM/DD";
 
   useEffect(() => {
     const startDate = dateFormatter(parseInt(year), parseInt(month), 1);
     const endDate = dateFormatter(parseInt(year), parseInt(month), 31);
-    getData(startDate, endDate)
-  }, [])
+    getData(startDate, endDate, filterHistory, filterCategory)
+  }, [filterCategory, filterHistory])
 
   const [histories, setHistories] = useState<(TPlusHistory | TMinusHistory)[]>([]);
   const [monthTotal, setMonthTotal] = useState<number>(0);
 
-  const getData = async (start: string, end: string) => {
-    const plusData = await getPlus(start, end);
-    const minusData = await getMinus(start, end);
-    await caculateTotal(plusData, minusData);
-    let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
-    await sortDate(data);
+  // 월별 상세 페이지 진입시 데이터 초기 가공 로직
+  const getData = async (start: string, end: string, historyKey: string, categoryKey: number) => {
+    if (categoryKey > 0) {
+      let plusData = await getPlus(start, end);
+      let minusData = await getMinus(start, end);
+      if (categoryKey > 0) {
+        minusData = minusData.filter((data: TMinusHistory) => { 
+          return data.category.category_id === categoryKey })
+      }
+      console.log(minusData)
+      plusData = []
+      await caculateTotal(plusData, minusData);
+      let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
+      await sortDate(data);
+    } else if (historyKey === "minus") {
+      let plusData = await getPlus(start, end);
+      let minusData = await getMinus(start, end);
+      plusData = []
+      await caculateTotal(plusData, minusData);
+      let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
+      await sortDate(data);
+    } else if (historyKey === "plus") {
+      let plusData = await getPlus(start, end);
+      let minusData = await getMinus(start, end);
+      minusData = [];
+      await caculateTotal(plusData, minusData);
+      let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
+      await sortDate(data);
+    } else {
+      let plusData = await getPlus(start, end);
+      let minusData = await getMinus(start, end);
+      await caculateTotal(plusData, minusData);
+      let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
+      await sortDate(data);
+    }
   };
 
   const caculateTotal = async (plusData: TPlusHistory[], minusData: TMinusHistory[]) => {
@@ -64,20 +96,21 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
         <div>소비 내역</div>
 
         <div className={dropDownBox}>
-          <FilterDropdown />
-          <FilterDropdown />
+          <FilterDropdown type="history" setFilterCategory={setFilterCategory} setFilterHistory={setFilterHistory}/>
+          <FilterDropdown type="categories" setFilterCategory={setFilterCategory} setFilterHistory={setFilterHistory}/>
         </div>
       </div>
 
       <div className={detailDateBar}>
         <div>
-          <RangePicker
+          {/* <RangePicker
             defaultValue={[
               dayjs("2015/01/01", dateFormat),
               dayjs("2015/01/01", dateFormat),
             ]}
             format={dateFormat}
-          />
+          /> */}
+          <div>{`${dateFormatter(parseInt(year), parseInt(month), 1)} ~ ${dateFormatter(parseInt(year), parseInt(month), 31)}`}</div>
         </div>
         <div>
           <h2>{monthTotal} 원</h2>

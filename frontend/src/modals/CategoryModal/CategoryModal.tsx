@@ -34,10 +34,8 @@ const CategoryModal = ({setOpen, open, categories, setCategories}: TCategoryAddM
 
   const DeleteCategory = async (category: TCategory, idx: number) => {
     deleteCategory(category.category_id).then((res) => {
-      console.log(res);
       const categoriesCopy = categories
       categoriesCopy.splice(idx, 1)
-      console.log('copy', categoriesCopy, idx)
       setCategories([...categoriesCopy])
     }).catch((() => {
       window.alert('해당 카테고리와 관련된 내역이 존재하여 카테고리 삭제가 불가합니다.')
@@ -56,7 +54,7 @@ const CategoryModal = ({setOpen, open, categories, setCategories}: TCategoryAddM
       {categories.map((category, idx) => (
         <div key={idx}>
           <div>{category.category_name}</div>
-          <button className={buttons} onClick={() => {}}><FormOutlined /></button>
+          {/* <button className={buttons} onClick={() => {}}><FormOutlined /></button> */}
           <button className={buttons} onClick={() => DeleteCategory(category, idx)}><DeleteOutlined /></button>
         </div>
       ))}
