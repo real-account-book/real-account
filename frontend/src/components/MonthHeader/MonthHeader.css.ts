@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "../../App.css";
+import { vars } from "../../App.css.ts";
 
 export const header = style({
   display: `flex`,
@@ -17,11 +17,17 @@ export const header = style({
 
 export const priceContainer = style({
   display: `flex`,
+  alignItems: 'center',
   justifyContent: `space-between`
 });
 
 export const addButton = style({
   display: `flex`,
+});
+
+export const textAlign = style({
+  alignItems: 'center', 
+  marginRight: '80px',
 });
 
 export const blueText = style({

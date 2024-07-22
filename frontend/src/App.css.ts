@@ -9,7 +9,8 @@ export const vars = createGlobalTheme(":root", {
     gray: 'rgba(228, 228, 228, 1)',
     unselected: 'rgba(229, 229, 229, 1)',
     utils: 'rgba(105, 118, 235, 1)',
-    utilText: 'rgba(22, 26, 65, 0.53)'  
+    utilText: 'rgba(22, 26, 65, 0.53)',
+    margin: 'auto',
   },
   border: {
     basic: `10px`
@@ -18,6 +19,6 @@ export const vars = createGlobalTheme(":root", {
 
 export const main = style({
   maxWidth: `780px`,
-  minWidth: `640px`, 
+  minWidth: `640px`,  
   margin: `auto`
 })

@@ -1,6 +1,6 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { FC } from "react";
-import { addButton, header, priceContainer } from "./Header.css";
+import { PlusOutlined } from '@ant-design/icons';
+import React, { FC } from 'react';
+import { addButton, header, priceContainer, blueText, redText } from './Header.css';
 import useAddStateStore from "../../store/addStateStore";
 import AddHistoryModal from "../../modals/AddHistoryMoal/AddHistoryModal";
 
@@ -12,8 +12,8 @@ const Header: FC = () => {
       <div>2024년 소비</div>
 
       <div className={priceContainer}>
-        <div>-10,800,000</div>
-        <div>+ 20,000,000</div>
+        <div className={redText}>-10,800,000</div>
+        <div className={blueText}>+ 20,000,000</div>
         <div>합계 + 9,200,000</div>
       </div>
 
