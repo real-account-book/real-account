@@ -1,45 +1,78 @@
+import { useEffect, useState } from "react";
 import { Pie, PieChart } from "recharts";
+import { TMinusHistory } from "../../types/history.type";
+import { getAllCategories } from "../../apis/category";
+import { dateFormatter } from "../../utils/dateFormatter";
+import { getCategoryTotal } from "../../apis/total";
+import { TCategory } from "../../types/category.type";
+import MonthCalendarSmall from "../MonthCalendarSmall/MonthCalendarSmall";
 
-const CategoryPieChart = () => {
-  const data01 = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-  ];
+type TCategoryPieChartProps = {
+  year: string;
+  month: string;
+}
 
-  const data02 = [
-    { name: "A1", value: 100 },
-    { name: "A2", value: 300 },
-    { name: "B1", value: 100 },
-    { name: "B2", value: 80 },
-    { name: "B3", value: 40 },
-    { name: "B4", value: 30 },
-  ];
+type TCategoriesTotal = {
+  name: string;
+  total: number;
+}
+
+const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
+  const [categoriesTotal, setCategoriesTotal] = useState<TCategoriesTotal[]>([]);
+
+  useEffect(() => {
+    const startedAt = dateFormatter(parseInt(year), parseInt(month), 1);
+    const endedAt = dateFormatter(parseInt(year), parseInt(month), 31);
+    let totalArr: TCategoriesTotal[] = [];
+    getAllCategories().then((allCategories) => {
+      allCategories.map((category: TCategory) => {
+        let total: number = 0;
+        getCategoryTotal(startedAt, endedAt, category.category_id)
+        .then((histories) => {
+          histories.map((history: TMinusHistory) => {
+            total += history.minus
+          })
+          const categoryTotal = {
+            name: category.category_name,
+            total: total
+          }
+          totalArr.push(categoryTotal)
+        }).then(() => {
+          totalArr.sort((a, b) => b.total - a.total)
+          setCategoriesTotal([...totalArr])
+        })
+      })
+    })
+  }, [])
+
   return (
     <>
       <PieChart width={280} height={250}>
         <Pie
-          data={data01}
-          dataKey="value"
+          data={categoriesTotal}
+          dataKey="total"
           nameKey="name"
-          cx="50%"
+          cx="55%"
           cy="50%"
-          outerRadius={50}
+          outerRadius={70}
+          // innerRadius={60}
           fill="#8884d8"
-        />
-        <Pie
-          data={data02}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          innerRadius={60}
-          outerRadius={80}
-          fill="#82ca9d"
           label
         />
       </PieChart>
+
+      <div>
+          <MonthCalendarSmall dateY={year} dateM={month}/>
+          <div>
+            <div></div>
+            {categoriesTotal.length ? (
+              <>
+                <div>-{categoriesTotal[0].total} 원</div>
+                <div>월별 최대 지출 카테고리: {categoriesTotal[0].name}</div>
+              </>
+            ): (<div>내역이 없습니다.</div>)}
+          </div>
+        </div>
     </>
   );
 };

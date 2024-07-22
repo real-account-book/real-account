@@ -24,16 +24,7 @@ const MonthDetailPage = () => {
       </div>
 
       <div className={bodyContents}>
-        <CategoryPieChart />
-
-        <div>
-          <MonthCalendarSmall dateY={year} dateM={month}/>
-          <div>
-            <div></div>
-            <div>-1111</div>
-            <div>월별 최대 지출 카테고리</div>
-          </div>
-        </div>
+        <CategoryPieChart year={year} month={month}/>
       </div>
 
       <MonthDetailView year={year} month={month} />
