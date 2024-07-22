@@ -1,8 +1,14 @@
-import { PlusOutlined } from '@ant-design/icons';
-import React, { FC } from 'react';
-import { addButton, header, priceContainer, blueText, redText } from './Header.css';
-import useAddStateStore from "../../store/addStateStore";
+import { PlusOutlined } from "@ant-design/icons";
+import { FC } from "react";
 import AddHistoryModal from "../../modals/AddHistoryMoal/AddHistoryModal";
+import useAddStateStore from "../../store/addStateStore";
+import {
+  addButton,
+  blueText,
+  header,
+  priceContainer,
+  redText,
+} from "./Header.css";
 
 const Header: FC = () => {
   const { handleAddModalState } = useAddStateStore();
@@ -24,7 +30,6 @@ const Header: FC = () => {
         <div>내역 추가</div>
       </button>
       <AddHistoryModal />
-      
     </header>
   );
 };

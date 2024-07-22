@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import { FC } from "react";
 import {
-  calendarContainer,
   calendarBody,
+  calendarContainer,
   calendarDay,
   calendarDayNames,
-} from './Calendar.css.ts';
+} from "./Calendar.css.ts";
 
 interface Props {
   year: number;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Calendar: FC<Props> = ({ year, month }) => {
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const daysInMonth = getDaysInMonth(year, month);
   const startDay = new Date(year, month, 1).getDay();
 
@@ -26,7 +26,11 @@ const Calendar: FC<Props> = ({ year, month }) => {
       days.push(<div key={`empty-${i}`} className={calendarDay}></div>);
     }
     for (let i = 1; i <= daysInMonth; i++) {
-      days.push(<div key={i} className={calendarDay}>{i}</div>);
+      days.push(
+        <div key={i} className={calendarDay}>
+          {i}
+        </div>
+      );
     }
     return days;
   }
@@ -35,12 +39,14 @@ const Calendar: FC<Props> = ({ year, month }) => {
     <div className={calendarContainer}>
       <div className={calendarBody}>
         {daysOfWeek.map((day) => (
-          <div key={day} className={calendarDayNames}>{day}</div>
+          <div key={day} className={calendarDayNames}>
+            {day}
+          </div>
         ))}
         {renderDays()}
       </div>
     </div>
   );
-}
+};
 
 export default Calendar;

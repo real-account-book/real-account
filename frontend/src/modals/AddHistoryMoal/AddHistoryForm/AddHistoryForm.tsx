@@ -1,12 +1,11 @@
-import { Button, DatePicker, Form, Input, Select, Space, Modal } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Form, Input, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../../apis/category";
-import { dateFormatter } from "../../../utils/dateFormatter";
 import { addMinus } from "../../../apis/minus";
 import { addPlus } from "../../../apis/plus";
 import useAddStateStore from "../../../store/addStateStore";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import { dateFormatter } from "../../../utils/dateFormatter";
 import CategoryModal from "../../CategoryModal/CategoryModal";
 
 type TAddHistoryForm = {
@@ -17,24 +16,24 @@ type TAddHistoryForm = {
 type TCategory = {
   category_id: number;
   category_name: string;
-}
+};
 
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const { confirm } = Modal;
+// const { confirm } = Modal;
 
 const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
   const { handleAddModalState } = useAddStateStore();
 
   const [form] = Form.useForm();
-  const [categories, setCategories] = useState<TCategory[]>([])
+  const [categories, setCategories] = useState<TCategory[]>([]);
 
   useEffect(() => {
-    getAllCategories().then(res => setCategories(res))
-  }, [])
+    getAllCategories().then((res) => setCategories(res));
+  }, []);
 
   const config = {
     rules: [
@@ -54,22 +53,28 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
 
   const onFinish = (values: any) => {
     let data;
-    if (history === 'plus') {
-      data = { plus : values['금액']}
-    } else { data = { 
-      minus : values['금액'],
-      category: values['지출 카테고리']
-    }}
+    if (history === "plus") {
+      data = { plus: values["금액"] };
+    } else {
+      data = {
+        minus: values["금액"],
+        category: values["지출 카테고리"],
+      };
+    }
 
-    const selectedDate = values['datepicker']
-    const date = dateFormatter(selectedDate.year(), selectedDate.month() + 1, selectedDate.date());
+    const selectedDate = values["datepicker"];
+    const date = dateFormatter(
+      selectedDate.year(),
+      selectedDate.month() + 1,
+      selectedDate.date()
+    );
 
     let payload: any = {
       ...data,
-      title: history === 'plus' ? values['수익처'] : values['지출처'],
-      content: values['메모'],
-      uploaded_at: date
-    }
+      title: history === "plus" ? values["수익처"] : values["지출처"],
+      content: values["메모"],
+      uploaded_at: date,
+    };
     if (history === "plus") {
       addPlus(payload).then(() => successFinish());
     } else if (history === "minus") {
@@ -80,8 +85,8 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const successFinish = () => {
     handleAddModalState();
     setTimeout(() => {
-      openNotification('bottomRight');
-    }, 300)
+      openNotification("bottomRight");
+    }, 300);
   };
 
   const onReset = () => {
@@ -99,11 +104,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
       >
-        <Form.Item 
-          name="금액"
-          label="금액" 
-          rules={[{ required: true }]} 
-        >
+        <Form.Item name="금액" label="금액" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -113,15 +114,11 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name='메모'
-          label='메모'
-          rules={[{ required: true }]}
-        >
+        <Form.Item name="메모" label="메모" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
-          name='datepicker'
+          name="datepicker"
           label={history === "plus" ? "수익 일자" : "지출 일자"}
           {...config}
         >
@@ -139,8 +136,10 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
                 onChange={onCategoryChange}
                 allowClear
               >
-                {categories.map(({category_id, category_name}: TCategory) => (
-                  <Option key={category_id} value={category_id}>{category_name}</Option>
+                {categories.map(({ category_id, category_name }: TCategory) => (
+                  <Option key={category_id} value={category_id}>
+                    {category_name}
+                  </Option>
                 ))}
               </Select>
             </Form.Item>
@@ -166,7 +165,12 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
               <PlusCircleOutlined />
               <div>카테고리 편집</div>
             </button>
-            <CategoryModal open={open} setOpen={setOpen} categories={categories} setCategories={setCategories} />
+            <CategoryModal
+              open={open}
+              setOpen={setOpen}
+              categories={categories}
+              setCategories={setCategories}
+            />
           </>
         )}
 
