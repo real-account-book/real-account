@@ -1,9 +1,9 @@
 import { AppDataSource } from "./data-source";
 import express from "express";
-import { plusRouter } from "./routes/plus";
-import { totalRouter } from "./routes/total";
-import { minusRouter } from "./routes/minus";
-import { categoryRouter } from "./routes/categories";
+import  plusRouter from "./routes/plus";
+import  totalRouter from "./routes/total";
+import  minusRouter from "./routes/minus";
+import  categoryRouter  from "./routes/categories";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
@@ -36,11 +36,11 @@ app.use(
   })
 );
 
-// app.use('/')
 app.use("/api/plus", plusRouter);
 app.use("/api/total", totalRouter);
 app.use("/api/minus", minusRouter);
 app.use("/api/category", categoryRouter);
+
 
 let staticPath = path.join(__dirname, "..", "..", "frontend", "dist");
 

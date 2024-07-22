@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import {AppDataSource} from '../data-source'
 import { Asset_minus } from "../entity/asset_minus";
 import { Asset_plus } from "../entity/asset_plus";
@@ -14,10 +15,15 @@ export const getTotalPlus = async (req : Request,res : Response) => {
         .where(`asset_plus.uploaded_at >= :start_at AND asset_plus.uploaded_at <= :end_at`, {  start_at: start_at, end_at: end_at })
         const getTotalPlus = await query.getMany();
 
-        res.json(getTotalPlus)
+        if(getTotalPlus.length == 0){
+            res.status(StatusCodes.NOT_FOUND).json({error: "입금내역이 존재하지 않습니다!"})
+        }else{
+            res.status(StatusCodes.OK).json(getTotalPlus)
+        }
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(500).json({error: "Internal Server Error"})
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({message: "데이터를 입력하는 데에 오류가 발생했습니다."})
     }
 }
 
@@ -36,9 +42,14 @@ export const getTotalMinus = async (req : Request,res : Response) => {
         }
         const getTotalMinus =await query.getMany();
         
-      res.json(getTotalMinus)
+        if(getTotalMinus.length == 0){
+            res.status(StatusCodes.NOT_FOUND).json({error: "출금내역이 존재하지 않습니다!"})
+        }else{
+            res.status(StatusCodes.OK).json(getTotalMinus)
+        }
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(500).json({error: "Internal Server Error"})
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({message: "데이터를 입력하는 데에 오류가 발생했습니다."})
     }
 }

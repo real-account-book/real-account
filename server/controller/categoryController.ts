@@ -8,7 +8,6 @@ export const addCategory = async (req : Request,res : Response) => {
     const {category_name} = req.body;
     const categoryRepository = AppDataSource.getRepository(Categories)
 
-
     try{
         const categoryInUse =  await categoryRepository.createQueryBuilder('categories')
         .select(`categories`)
@@ -24,11 +23,14 @@ export const addCategory = async (req : Request,res : Response) => {
             category_name : category_name
         })
         .execute()
-        res.json(addCategory)
-
+        if(addCategory.raw >= 1){
+            return res.status(StatusCodes.OK).json(addCategory)
+        }
+        
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(StatusCodes.BAD_REQUEST).json({error: "Internal Server Error"})
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({message: "데이터를 입력하는 데에 오류가 발생했습니다."})
     }
 }
 
@@ -54,15 +56,15 @@ export const deleteCategory = async (req : Request,res : Response) => {
         .execute();
 
         if(deleteCategory.affected == 1){
-            res.status(StatusCodes.OK).json({message: "정상적으로 삭제되었습니다!"})
+            res.status(StatusCodes.OK).json(deleteCategory)
         }else{
             res.status(StatusCodes.NOT_FOUND).json({error: "카테고리가 존재하지 않습니다!"})
         }
         
-     
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(500).json({error: "Internal Server Error"})
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({message: "데이터를 입력하는 데에 오류가 발생했습니다."})
     }
 }
 
@@ -76,6 +78,7 @@ export const getCategory = async (req : Request,res : Response) => {
             query.where("categories.category_id = :category_id", {category_id : categoryId})
         }
         const getCategory = await query.getMany();
+
         if(getCategory.length == 0){
             res.status(StatusCodes.NOT_FOUND).json({error: "카테고리가 존재하지 않습니다!"})
         }else{
@@ -84,7 +87,8 @@ export const getCategory = async (req : Request,res : Response) => {
 
     }catch(err){
         console.error('Error fetching data: ', err);
-        res.status(500).json({error: "Internal Server Error"})
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({message: "데이터를 입력하는 데에 오류가 발생했습니다."})
     }
 }
 
