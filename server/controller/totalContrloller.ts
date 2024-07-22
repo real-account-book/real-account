@@ -13,12 +13,9 @@ export const getTotalPlus = async (req : Request,res : Response) => {
         .select(['asset_plus.plus_id','asset_plus.uploaded_at','asset_plus.plus', 'asset_plus.title', 'asset_plus.content'])
         .where(`asset_plus.uploaded_at >= :start_at AND asset_plus.uploaded_at <= :end_at`, {  start_at: start_at, end_at: end_at })
         const getTotalPlus = await query.getMany();
-
-        if(getTotalPlus.length == 0){
-            res.status(StatusCodes.NOT_FOUND).json({error: "입금내역이 존재하지 않습니다!"})
-        }else{
-            res.status(StatusCodes.OK).json(getTotalPlus)
-        }
+ 
+        res.status(StatusCodes.OK).json(getTotalPlus)
+        
     }catch(err){
         console.error('Error fetching data: ', err);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -41,11 +38,8 @@ export const getTotalMinus = async (req : Request,res : Response) => {
         }
         const getTotalMinus =await query.getMany();
         
-        if(getTotalMinus.length == 0){
-            res.status(StatusCodes.NOT_FOUND).json({error: "출금내역이 존재하지 않습니다!"})
-        }else{
-            res.status(StatusCodes.OK).json(getTotalMinus)
-        }
+        res.status(StatusCodes.OK).json(getTotalMinus)
+        
     }catch(err){
         console.error('Error fetching data: ', err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR)
