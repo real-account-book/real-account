@@ -4,10 +4,8 @@ import BoardView from "../../components/BoardView/BoardView.tsx";
 import useAddStateStore from "../../store/addStateStore.ts";
 import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
 import { addHistoryButton, lowerContainer } from "./DayDetailModal.css.ts";
-import { useEffect, useState } from "react";
-import { getMinus, getPlus } from "../../apis/total.ts";
-import { dateFormatter } from "../../utils/dateFormatter.ts";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type.ts";
+import { useEffect, useState } from "react";
 
 type TDayModalProps = {
   dayModalOpen: boolean;
@@ -15,6 +13,7 @@ type TDayModalProps = {
   selectedDate: number;
   selectedMonth: number;
   setDayModalOpen: (dayModalOpen: boolean) => void;
+  histories: (TPlusHistory | TMinusHistory)[]
 };
 
 const DayDetailModal = ({
@@ -23,9 +22,23 @@ const DayDetailModal = ({
   selectedDate,
   selectedMonth,
   setDayModalOpen,
+  histories
 }: TDayModalProps) => {
   const month: number = selectedMonth + 1;
   const { handleAddModalState } = useAddStateStore();
+  const [dayTotal, setDayTotal] = useState<number>(0);
+
+  useEffect(() => {
+    let total: number = 0;
+    histories.map((history) => {
+     if ('minus' in history) {
+      total -= history.minus
+     } else { total += history.plus }
+    })
+    setTimeout(() => {
+      setDayTotal(total)
+    }, 100)
+  }, [histories])
 
   const closeModal = () => {
     setDayModalOpen(false);
@@ -53,7 +66,7 @@ const DayDetailModal = ({
         </Button>,
       ]}
     >
-      {/* <BoardView /> */}
+      <BoardView histories={histories}/>
 
       <div className={lowerContainer}>
         <button className={addHistoryButton} onClick={handleAddModalState}>
@@ -65,7 +78,7 @@ const DayDetailModal = ({
         <AddHistoryModal />
 
         <div>
-          <div>+ 13,504 원</div>
+          <div>{dayTotal} 원</div>
           <div>
             24년 {month}월 {selectedDate}일 합계
           </div>
