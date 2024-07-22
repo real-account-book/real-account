@@ -7,6 +7,7 @@ import { addPlus } from "../../../apis/plus";
 import useAddStateStore from "../../../store/addStateStore";
 import { dateFormatter } from "../../../utils/dateFormatter";
 import CategoryModal from "../../CategoryModal/CategoryModal";
+import useYearTotalStore from "../../../store/yearTotalStore";
 
 type TAddHistoryForm = {
   history: "plus" | "minus";
@@ -27,6 +28,7 @@ const tailLayout = {
 const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
   const { handleAddModalState } = useAddStateStore();
+  const { year, yearlyData, updateMinuses, updatePluses } = useYearTotalStore();
 
   const [form] = Form.useForm();
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -54,10 +56,10 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const onFinish = (values: any) => {
     let data;
     if (history === "plus") {
-      data = { plus: values["금액"] };
+      data = { plus: parseInt(values["금액"]) };
     } else {
       data = {
-        minus: values["금액"],
+        minus: parseInt(values["금액"]),
         category: values["지출 카테고리"],
       };
     }
@@ -76,9 +78,15 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
       uploaded_at: date,
     };
     if (history === "plus") {
-      addPlus(payload).then(() => successFinish());
+      addPlus(payload).then(() => {
+        updatePluses(parseInt(values["금액"]));
+        successFinish();
+      });
     } else if (history === "minus") {
-      addMinus(payload).then(() => successFinish());
+      addMinus(payload).then(() => {
+        updateMinuses(parseInt(values["금액"]));
+        successFinish();
+      });
     }
   };
 
@@ -161,7 +169,10 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
                 ) : null
               }
             </Form.Item>
-            <button onClick={() => setOpen(!open)}>
+            <button onClick={(e) => {
+              e.preventDefault();
+              setOpen(!open)
+            }}>
               <PlusCircleOutlined />
               <div>카테고리 편집</div>
             </button>

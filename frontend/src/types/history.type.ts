@@ -1,6 +1,7 @@
 import { TCategory } from "./category.type";
 
 export type TPlusHistory = {
+  plus_id: number;
   title: string;
   content: string;
   uploaded_at: string;
@@ -8,6 +9,7 @@ export type TPlusHistory = {
 }
 
 export type TMinusHistory = {
+  minus_id: number;
   title: string;
   content: string;
   uploaded_at: string;
