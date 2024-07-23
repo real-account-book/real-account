@@ -1,4 +1,5 @@
 import { createGlobalTheme, style } from "@vanilla-extract/css";
+import { globalFontFace, globalStyle } from '@vanilla-extract/css';
 
 export const vars = createGlobalTheme(":root", {
   color: {
@@ -22,3 +23,19 @@ export const main = style({
   minWidth: `640px`,  
   margin: `auto`
 })
+
+globalFontFace('Noto Sans', {
+  src: 'url("/static/fonts/NotoSans-Regular.ttf") format("truetype")',
+  fontWeight: 'normal',
+  fontStyle: 'normal'
+});
+
+globalFontFace('Noto Sans', {
+  src: 'url("/static/fonts/NotoSans-Bold.ttf") format("truetype")',
+  fontWeight: 'bold',
+  fontStyle: 'normal'
+});
+
+globalStyle('body', {
+  fontFamily: 'Noto Sans, sans-serif'
+});
