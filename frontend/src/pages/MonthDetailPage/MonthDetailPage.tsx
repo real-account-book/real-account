@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMinus, getPlus } from "../../apis/total";
 import CategoryPieChart from "../../components/CategoryPieChart/CategoryPieChart";
@@ -15,6 +15,7 @@ import {
   titleBox,
 } from "./MonthDetailPage.css";
 import { RightOutlined } from "@ant-design/icons";
+import { Skeleton } from "antd";
 
 const MonthDetailPage = () => {
   const date: string = location.pathname.split("/")[2];
@@ -26,6 +27,19 @@ const MonthDetailPage = () => {
   const handleButtonClick = () => {
     navigate(`/month/${year}`);
   };
+
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldRender(true);
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, [])
+
+  // 렌더링 되는 시간 늦춰줌
+  if (!shouldRender) { }
 
   return (
     <div className={container}>
@@ -41,11 +55,24 @@ const MonthDetailPage = () => {
         </button>
       </div>
 
-      <div className={bodyContents}>
-        <CategoryPieChart year={year} month={month} />
-      </div>
+      {!shouldRender ? (
+        <>
+          <div style={{display: 'flex', marginBottom: '20px'}}>
+            <Skeleton paragraph={{ rows: 8 }}/>
+            <Skeleton paragraph={{ rows: 8 }}/>
+          </div>
+          <Skeleton paragraph={{ rows: 6 }}/>
+        </>
+      ): (
+        <>
+          <div className={bodyContents}>
+            <CategoryPieChart year={year} month={month} />
+          </div>
+    
+          <MonthDetailView year={year} month={month} />
+        </>
+      )}
 
-      <MonthDetailView year={year} month={month} />
     </div>
   );
 };

@@ -6,7 +6,11 @@ export const addButton = style({
   border: 'none',
   background: 'transparent',
   cursor: 'pointer',
-  width: '20%',
+
+  ':hover': {
+    backgroundColor: '#f0f0f0',
+    borderRadius: '30px'
+  },
 });
 
 export const buttonIcon = style({

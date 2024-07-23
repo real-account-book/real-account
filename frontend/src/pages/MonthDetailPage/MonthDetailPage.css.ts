@@ -2,7 +2,8 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "../../App.css";
 
 export const container = style({
-
+  maxWidth: '780px',
+  margin: '0 auto'
 });
 
 export const titleBar = style({
