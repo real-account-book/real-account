@@ -28,7 +28,7 @@ const tailLayout = {
 const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
   const { handleAddModalState } = useAddStateStore();
-  const { year, yearlyData, updateMinuses, updatePluses } = useYearTotalStore();
+  const { updateMinuses, updatePluses } = useYearTotalStore();
 
   const [form] = Form.useForm();
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -122,7 +122,11 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="메모" label="메모" rules={[{ required: true }]}>
+        <Form.Item 
+          name="메모" 
+          label="메모" 
+          rules={[{ required: false }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item

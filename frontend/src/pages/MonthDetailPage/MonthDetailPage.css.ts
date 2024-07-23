@@ -24,7 +24,7 @@ export const title = style({
 export const sideTitle = style({
   fontSize: 17,
   paddingTop: 8,
-  color: 'rgba(22, 26, 65, 0.53)'
+  color: vars.color.fontGray
 })
 
 export const bodyContents = style({

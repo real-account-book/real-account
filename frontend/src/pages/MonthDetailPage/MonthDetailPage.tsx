@@ -27,12 +27,6 @@ const MonthDetailPage = () => {
     navigate(`/month/${year}`);
   };
 
-  useEffect(() => {
-    const date = dateFormatter(2024, 7, 1);
-    getPlus(date, "2024-07-30").then((res) => console.log(res));
-    getMinus("2024-07-01", "2024-07-30").then((res) => console.log(res));
-  }, []);
-
   return (
     <div className={container}>
       <div className={titleBar}>
