@@ -6,9 +6,11 @@ import { dateFormatter } from "../../utils/dateFormatter";
 import BoardView from "../BoardView/BoardView";
 import FilterDropdown from "../FilterDropdown/FilterDropdown";
 import {
+  datePicker,
   detailContainer,
   detailDateBar,
   dropDownBox,
+  title,
   titleBar,
 } from "./MonthDetailView.css";
 
@@ -85,10 +87,10 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
   ) => {
     let monthTotal: number = 0;
     plusData.forEach((history: TPlusHistory) => {
-      monthTotal += history.plus;
+      monthTotal -= history.plus;
     });
     minusData.forEach((history: TMinusHistory) => {
-      monthTotal -= history.minus;
+      monthTotal += history.minus;
     });
     setMonthTotal(monthTotal);
   };
@@ -105,7 +107,7 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
   return (
     <div className={detailContainer}>
       <div className={titleBar}>
-        <div>소비 내역</div>
+        <div className={title}>소비 내역</div>
 
         <div className={dropDownBox}>
           <FilterDropdown
@@ -122,7 +124,7 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
       </div>
 
       <div className={detailDateBar}>
-        <div>
+        <div className={datePicker}>
           {/* <RangePicker
             defaultValue={[
               dayjs("2015/01/01", dateFormat),
@@ -130,15 +132,17 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
             ]}
             format={dateFormat}
           /> */}
-          <div>{`${dateFormatter(
+          <div>
+            {`${dateFormatter(
             parseInt(year),
             parseInt(month),
             1
-          )} ~ ${dateFormatter(parseInt(year), parseInt(month), 31)}`}</div>
+            )} ~ ${dateFormatter(parseInt(year), parseInt(month), 31)}`}
+          </div>
         </div>
         <div>
-          <h2>{monthTotal} 원</h2>
-        </div>
+          <h2>{monthTotal > 0 ? '-' : '+'} {Math.abs(monthTotal)} 원</h2>
+        </div> 
       </div>
 
       <BoardView histories={histories} />

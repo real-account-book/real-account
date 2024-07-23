@@ -6,6 +6,8 @@ import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
 import { addHistoryButton, lowerContainer } from "./DayDetailModal.css.ts";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type.ts";
 import { useEffect, useState } from "react";
+import useDayHistoriesStore from "../../store/dayHistoriesStore.ts";
+import PlusButton from "../../components/PlusButton/PlusButton.tsx";
 
 type TDayModalProps = {
   dayModalOpen: boolean;
@@ -69,13 +71,7 @@ const DayDetailModal = ({
       <BoardView histories={histories}/>
 
       <div className={lowerContainer}>
-        <button className={addHistoryButton} onClick={handleAddModalState}>
-          <div>
-            <PlusOutlined />
-          </div>
-          <p>기록 추가</p>
-        </button>
-        <AddHistoryModal />
+        <PlusButton />
 
         <div>
           <div>{dayTotal} 원</div>

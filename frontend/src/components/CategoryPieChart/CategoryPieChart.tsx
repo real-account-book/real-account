@@ -6,6 +6,8 @@ import { dateFormatter } from "../../utils/dateFormatter";
 import { getCategoryTotal } from "../../apis/total";
 import { TCategory } from "../../types/category.type";
 import MonthCalendarSmall from "../MonthCalendarSmall/MonthCalendarSmall";
+import { categoryIcon, categoryMaxBox, categoryName, categoryPrice } from "./CategoryPieChart.css";
+import { PieChartOutlined } from "@ant-design/icons";
 
 type TCategoryPieChartProps = {
   year: string;
@@ -47,14 +49,14 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
 
   return (
     <>
-      <PieChart width={280} height={250}>
+      <PieChart width={400} height={250}>
         <Pie
           data={categoriesTotal}
           dataKey="total"
           nameKey="name"
           cx="55%"
-          cy="50%"
-          outerRadius={70}
+          cy="55%"
+          outerRadius={100}
           // innerRadius={60}
           fill="#8884d8"
           label
@@ -62,17 +64,24 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
       </PieChart>
 
       <div>
-          <MonthCalendarSmall dateY={year} dateM={month}/>
-          <div>
-            <div></div>
-            {categoriesTotal.length ? (
-              <>
-                <div>-{categoriesTotal[0].total} 원</div>
-                <div>월별 최대 지출 카테고리: {categoriesTotal[0].name}</div>
-              </>
-            ): (<div>내역이 없습니다.</div>)}
-          </div>
+        <MonthCalendarSmall dateY={year} dateM={month}/>
+        <div className={categoryMaxBox}>
+          {categoriesTotal.length ? (
+            <div style={{display: 'flex'}}>
+              <div className={categoryIcon}>
+                <PieChartOutlined style={{fontSize: '40px'}} />
+              </div>
+              <div>
+                <div className={categoryPrice}>-{categoriesTotal[0].total} 원</div>
+                <div className={categoryName}>
+                  <div style={{marginRight: '10px'}}>{categoriesTotal[0].name}</div>
+                  <div style={{fontSize: '12px', marginTop: '3px'}}>월별 최대 지출 카테고리</div>
+                </div>
+              </div>
+            </div>
+          ): (<div>내역이 없습니다.</div>)}
         </div>
+      </div>
     </>
   );
 };

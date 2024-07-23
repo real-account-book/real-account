@@ -7,9 +7,14 @@ import { dateFormatter } from "../../utils/dateFormatter";
 import {
   addButton,
   bodyContents,
+  buttonFont,
   container,
+  sideTitle,
+  title,
   titleBar,
+  titleBox,
 } from "./MonthDetailPage.css";
+import { RightOutlined } from "@ant-design/icons";
 
 const MonthDetailPage = () => {
   const date: string = location.pathname.split("/")[2];
@@ -19,7 +24,7 @@ const MonthDetailPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/month/:year");
+    navigate(`/month/${year}`);
   };
 
   useEffect(() => {
@@ -31,13 +36,14 @@ const MonthDetailPage = () => {
   return (
     <div className={container}>
       <div className={titleBar}>
-        <div>
-          <div>{parseInt(month)}월</div>
-          <div>월간 입출금 내역 상세 조회</div>
+        <div className={titleBox}>
+          <div className={title}>{parseInt(month)}월</div>
+          <div className={sideTitle}>월간 입출금 내역 상세 조회</div>
         </div>
 
         <button className={addButton} onClick={handleButtonClick}>
-          캘린더 전체 화면
+          <div className={buttonFont}>캘린더 전체 화면</div>
+          <RightOutlined />
         </button>
       </div>
 

@@ -19,7 +19,7 @@ export const vars = createGlobalTheme(":root", {
 });
 
 export const main = style({
-  maxWidth: `780px`,
+  maxWidth: `1040px`,
   minWidth: `640px`,  
   margin: `auto`
 })

@@ -5,7 +5,10 @@ import useAddStateStore from "../../store/addStateStore";
 import {
   addButton,
   blueText,
+  buttonIcon,
+  buttonText,
   header,
+  headerTitle,
   priceContainer,
   redText,
 } from "./Header.css";
@@ -13,6 +16,7 @@ import useYearTotalStore from "../../store/yearTotalStore";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { getMinus, getPlus } from "../../apis/total";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type";
+import PlusButton from "../PlusButton/PlusButton";
 
 const Header: FC = () => {
   const { handleAddModalState } = useAddStateStore();
@@ -42,7 +46,7 @@ const Header: FC = () => {
 
   return (
     <header className={header}>
-      <div>{year}년 소비</div>
+      <div className={headerTitle}>{year}년 소비</div>
 
       <div className={priceContainer}>
         <div className={redText}>-{yearlyData.minuses}</div>
@@ -50,13 +54,7 @@ const Header: FC = () => {
         <div>합계 {yearlyData.pluses - yearlyData.minuses}</div>
       </div>
 
-      <button className={addButton} onClick={handleAddModalState}>
-        <div>
-          <PlusOutlined />
-        </div>
-        <div>내역 추가</div>
-      </button>
-      <AddHistoryModal />
+      <PlusButton />
     </header>
   );
 };

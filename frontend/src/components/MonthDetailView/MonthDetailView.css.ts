@@ -7,13 +7,26 @@ export const detailContainer = style({
 export const titleBar = style({
   display: `flex`,
   justifyContent: `space-between`,
+  padding: 20,
 });
 
+export const title = style({
+  fontSize: 20,
+  fontWeight: 600
+})
+
 export const dropDownBox = style({
-  display: `flex`
+  display: `flex`,
+  gap: 30,
 })
 
 export const detailDateBar = style({
   display: `flex`,
-  justifyContent: `space-between`
+  justifyContent: `space-between`,
+  padding: '10px 20px',
 });
+
+export const datePicker = style({
+  display: 'flex',
+  alignItems: 'center',
+})

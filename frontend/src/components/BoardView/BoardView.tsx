@@ -18,9 +18,9 @@ const BoardView = ({ histories }: TBoardViewProps) => {
         )}
     </>)
     : 
-    (<>
+    (<div style={{ padding: '20px'}}>
       <div>해당하는 내역이 없습니다.</div>
-    </>)
+    </div>)
     }
     </>
   )

@@ -2,7 +2,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Input, Modal } from "antd";
 import { useState } from "react";
 import { addCategory, deleteCategory } from "../../apis/category";
-import { buttons } from "../../components/BoardView/DetailView/DetailView.css";
+import { deleteButton } from "../../components/BoardView/DetailView/DetailView.css";
 import { TCategory } from "../../types/category.type";
 
 type TCategoryAddModal = {
@@ -64,7 +64,7 @@ const CategoryModal = ({
           <div>{category.category_name}</div>
           {/* <button className={buttons} onClick={() => {}}><FormOutlined /></button> */}
           <button
-            className={buttons}
+            className={deleteButton}
             onClick={() => DeleteCategory(category, idx)}
           >
             <DeleteOutlined />
