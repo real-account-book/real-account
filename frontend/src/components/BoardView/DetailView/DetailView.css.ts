@@ -14,10 +14,38 @@ export const leftContainer = style({
   display: 'flex'
 });
 
+export const dataBox = style({
+  padding: '4px 0 4px 10px'
+})
+
+export const dateText = style({
+  fontSize: 14,
+  margin: '2px px',
+  color: 'rgba(58, 58, 73, 0.7)'
+})
+
 export const contents = style({
   display: `flex`,
   justifyContent: `initial`,
+  margin: '2px 0 2px 0',
+  fontSize: 17
 });
+
+export const category = style({
+  fontSize: 14,
+  color: 'rgba(221, 154, 25, 0.8)',
+  margin: '2px 0 1px 6px'
+})
+
+export const minusPrice = style({
+  color: 'rgba(255, 0, 0, 0.75)',
+  fontSize: 16
+})
+
+export const plusPrice = style({
+  color: 'rgba(31, 26, 229, 0.8)',
+  fontSize: 16
+})
 
 export const memoButton = style({
   height: `50%`,

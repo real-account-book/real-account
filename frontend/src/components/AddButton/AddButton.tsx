@@ -2,9 +2,9 @@ import React from 'react';
 import AddHistoryModal from '../../modals/AddHistoryMoal/AddHistoryModal';
 import { PlusOutlined } from '@ant-design/icons';
 import useAddStateStore from '../../store/addStateStore';
-import { addButton, buttonIcon, buttonText } from './PlusButton.css';
+import { addButton, buttonIcon, buttonText } from './AddButton.css';
 
-const PlusButton = () => {
+const AddButton = () => {
   const { handleAddModalState } = useAddStateStore();
 
   return(
@@ -20,4 +20,4 @@ const PlusButton = () => {
   );
 }
 
-export default PlusButton;
+export default AddButton;

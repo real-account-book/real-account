@@ -16,7 +16,7 @@ import useYearTotalStore from "../../store/yearTotalStore";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { getMinus, getPlus } from "../../apis/total";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type";
-import PlusButton from "../PlusButton/PlusButton";
+import AddButton from "../AddButton/AddButton";
 
 const Header: FC = () => {
   const { handleAddModalState } = useAddStateStore();
@@ -54,7 +54,7 @@ const Header: FC = () => {
         <div>합계 {yearlyData.pluses - yearlyData.minuses}</div>
       </div>
 
-      <PlusButton />
+      <AddButton />
     </header>
   );
 };

@@ -49,7 +49,7 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
 
   return (
     <>
-      <PieChart width={400} height={250}>
+      <PieChart width={400} height={280}>
         <Pie
           data={categoriesTotal}
           dataKey="total"
