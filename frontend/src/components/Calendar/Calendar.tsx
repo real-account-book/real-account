@@ -1,46 +1,90 @@
-import React, { FC } from 'react';
+import React from 'react'
 import {
-  calendarContainer,
-  calendarBody,
-  calendarDay,
-  calendarDayNames,
-} from './Calendar.css.ts';
+  EventApi,
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+} from '@fullcalendar/core'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import { INITIAL_EVENTS, createEventId } from './event-utils'
 
-interface Props {
-  year: number;
-  month: number;
+interface CalendarState {
+  currentEvents: EventApi[]
 }
 
-const Calendar: FC<Props> = ({ year, month }) => {
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const daysInMonth = getDaysInMonth(year, month);
-  const startDay = new Date(year, month, 1).getDay();
-
-  function getDaysInMonth(year: number, month: number): number {
-    return new Date(year, month + 1, 0).getDate();
+export default class Calendar extends React.Component<{ year: number, month: number }, CalendarState> {
+  state: CalendarState = {
+    currentEvents: []
   }
 
-  function renderDays() {
-    const days = [];
-    for (let i = 0; i < startDay; i++) {
-      days.push(<div key={`empty-${i}`} className={calendarDay}></div>);
-    }
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(<div key={i} className={calendarDay}>{i}</div>);
-    }
-    return days;
-  }
+  render() {
+    const { year, month } = this.props;
+    const initialDate = `${year}-${month.toString().padStart(2, '0')}-01`;
 
-  return (
-    <div className={calendarContainer}>
-      <div className={calendarBody}>
-        {daysOfWeek.map((day) => (
-          <div key={day} className={calendarDayNames}>{day}</div>
-        ))}
-        {renderDays()}
+    return (
+      <div className='demo-app'>
+        <div className='demo-app-main'>
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            headerToolbar={{
+              left: 'prev,next',
+              center: 'title',
+              right: 'today'
+            }}
+            initialView='dayGridMonth'
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            dayMaxEvents={true}
+            initialEvents={INITIAL_EVENTS}
+            select={this.handleDateSelect}
+            eventContent={renderEventContent} 
+            eventClick={this.handleEventClick}
+            eventsSet={this.handleEvents} 
+            initialDate={initialDate}
+          />
+        </div>
       </div>
-    </div>
-  );
+    )
+  }
+
+  handleDateSelect = (selectInfo: DateSelectArg) => {
+    let title = prompt('Please enter a new title for your event')
+    let calendarApi = selectInfo.view.calendar
+
+    calendarApi.unselect()
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay
+      })
+    }
+  }
+
+  handleEventClick = (clickInfo: EventClickArg) => {
+    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      clickInfo.event.remove()
+    }
+  }
+
+  handleEvents = (events: EventApi[]) => {
+    this.setState({
+      currentEvents: events
+    })
+  }
 }
 
-export default Calendar;
+function renderEventContent(eventContent: EventContentArg) {
+  return (
+    <>
+      <b>{eventContent.timeText}</b>
+      <i>{eventContent.event.title}</i>
+    </>
+  )
+}

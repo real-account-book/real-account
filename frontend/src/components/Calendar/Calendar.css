@@ -1,0 +1,32 @@
+body { 
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.demo-app-main {
+  padding: 1em;
+}
+
+.fc {
+  max-width: 1400px; 
+  width: 100%; 
+  margin: 0 auto;
+}
+
+.fc-daygrid-day-number {
+  color: black !important;
+}
+
+.fc-col-header-cell.fc-day {
+  color: white !important;
+  background-color: #b37feb !important;
+}
+
+@media (max-width: 768px) {
+  .fc {
+    width: 100%;
+  }
+}

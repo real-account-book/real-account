@@ -4,14 +4,14 @@ import Header from './components/Header/Header.tsx';
 import { main } from './App.css.ts';
 
 const App: FC = () => {
-	return (
-		<>
+  return (
+    <>
       <Header />
       <main className={main}>
-        <Outlet/>
+        <Outlet />
       </main>
-		</>
-	);
+    </>
+  );
 };
 
 export default App;
