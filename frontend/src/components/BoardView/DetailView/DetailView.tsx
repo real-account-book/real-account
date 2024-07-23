@@ -46,6 +46,7 @@ const DetailView = ({ data }: TDetailViewProps) => {
 
   return(
     <div className={card}>
+      {contextHolder}
       <div className={leftContainer}>
         <div className={dataBox}>
           <div className={dateText}>{data.uploaded_at}</div>

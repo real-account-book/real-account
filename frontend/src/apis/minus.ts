@@ -14,10 +14,11 @@ type TDeleteProps = {
 }
 
 type TMinusContents  = {
-  minus: number,
-  category: number,
-  title: string,
-  content: string
+  minus: number;
+  category: number;
+  title: string;
+  content: string;
+  uploaded_at: string
 }
 
 type TUpdateMinusProps = {

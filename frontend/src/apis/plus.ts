@@ -16,6 +16,7 @@ type TPlusContents  = {
   plus: number,
   title: string,
   content: string,
+  uploaded_at: string
 }
 
 type TUpdatePlusProps = {

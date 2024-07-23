@@ -7,7 +7,7 @@ import CategoryModal from '../CategoryModal/CategoryModal';
 import { TMinusHistory, TPlusHistory } from '../../types/history.type';
 import dayjs from 'dayjs';
 import { updatePlus } from '../../apis/plus';
-import { addMinus } from '../../apis/minus';
+import { updateMinus } from '../../apis/minus';
 import { dateFormatter } from '../../utils/dateFormatter';
 import useYearTotalStore from '../../store/yearTotalStore';
 
@@ -49,12 +49,12 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
 
   const onFinish = (values: any) => {
     let dataBox;
-    if (history === "plus") {
-      dataBox = { plus: parseInt(values["금액"]) };
+    if ('plus' in data) {
+      dataBox = { plus: parseInt(values["금액"])};
     } else {
       dataBox = {
         minus: parseInt(values["금액"]),
-        category: values["지출 카테고리"],
+        category_id: values["지출 카테고리"],
       };
     }
 
@@ -71,15 +71,18 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
       content: values["메모"],
       uploaded_at: date,
     };
+    console.log(payload);
     if ('plus' in data) {
-      updatePlus(payload).then(() => {
+      const send = {plus_id: data.plus_id, payload}
+      updatePlus(send).then(() => {
         const price = parseInt(values["금액"]) - data.plus
         updatePluses(price);
         successFinish();
       });
     } else if (history === "minus") {
+      const send = {minus_id: data.minus_id, payload}
       const price = parseInt(values["금액"]) - data.minus
-      addMinus(payload).then(() => {
+      updateMinus(send).then(() => {
         updateMinuses(price);
         successFinish();
       });
