@@ -1,44 +1,38 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Form, Input, Select, Space } from "antd";
-import { useEffect, useState } from "react";
-import { getAllCategories } from "../../../apis/category";
-import { addMinus } from "../../../apis/minus";
-import { addPlus } from "../../../apis/plus";
-import useAddStateStore from "../../../store/addStateStore";
-import { dateFormatter } from "../../../utils/dateFormatter";
-import CategoryModal from "../../CategoryModal/CategoryModal";
-import useYearTotalStore from "../../../store/yearTotalStore";
-import useChangeHistoriesStore from "../../../store/changeHistories";
-import { addButton, buttonIcon, buttonText } from "./AddHistoryForm.css";
+import { Button, DatePicker, Form, Input, Modal, Select, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { getAllCategories } from '../../apis/category';
+import { TCategory } from '../../types/category.type';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import CategoryModal from '../CategoryModal/CategoryModal';
+import { TMinusHistory, TPlusHistory } from '../../types/history.type';
+import dayjs from 'dayjs';
+import { updatePlus } from '../../apis/plus';
+import { updateMinus } from '../../apis/minus';
+import { dateFormatter } from '../../utils/dateFormatter';
+import useYearTotalStore from '../../store/yearTotalStore';
+import useChangeHistoriesStore from '../../store/changeHistories';
+import { addButton, buttonIcon, buttonText } from './UpdateHistoryModal.css';
 
-type TAddHistoryForm = {
-  history: "plus" | "minus";
+type YUpdateHistoryModalProps = {
+  isUpdateOpen: boolean;
+  setIsUpdateOpen: (isUpdateOpen: boolean) => void;
   openNotification: any;
-};
+  history: "plus" | "minus";
+  data: TPlusHistory | TMinusHistory;
+}
 
-type TCategory = {
-  category_id: number;
-  category_name: string;
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
-// const { confirm } = Modal;
-
-const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
-  const { Option } = Select;
-  const { handleAddModalState } = useAddStateStore();
+const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, history, data }: YUpdateHistoryModalProps) => {
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
   const { updateMinuses, updatePluses } = useYearTotalStore();
   const { handleHistoryFlag } = useChangeHistoriesStore();
-
-  const [form] = Form.useForm();
-  const [categories, setCategories] = useState<TCategory[]>([]);
 
   useEffect(() => {
     getAllCategories().then((res) => setCategories(res));
   }, []);
+
+  const { Option } = Select;
+  const [form] = Form.useForm();
 
   const config = {
     rules: [
@@ -57,13 +51,13 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   };
 
   const onFinish = (values: any) => {
-    let data;
-    if (history === "plus") {
-      data = { plus: parseInt(values["금액"]) };
+    let dataBox;
+    if ('plus' in data) {
+      dataBox = { plus: parseInt(values["금액"])};
     } else {
-      data = {
+      dataBox = {
         minus: parseInt(values["금액"]),
-        category: values["지출 카테고리"],
+        category_id: values["지출 카테고리"],
       };
     }
 
@@ -75,26 +69,31 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
     );
 
     let payload: any = {
-      ...data,
+      ...dataBox,
       title: history === "plus" ? values["수익처"] : values["지출처"],
       content: values["메모"],
       uploaded_at: date,
     };
-    if (history === "plus") {
-      addPlus(payload).then(() => {
-        updatePluses(parseInt(values["금액"]));
+    console.log(payload);
+    if ('plus' in data) {
+      const send = {plus_id: data.plus_id, payload}
+      updatePlus(send).then(() => {
+        const price = parseInt(values["금액"]) - data.plus
+        updatePluses(price);
         successFinish();
       });
     } else if (history === "minus") {
-      addMinus(payload).then(() => {
-        updateMinuses(parseInt(values["금액"]));
+      const send = {minus_id: data.minus_id, payload}
+      const price = parseInt(values["금액"]) - data.minus
+      updateMinus(send).then(() => {
+        updateMinuses(price);
         successFinish();
       });
     }
   };
 
   const successFinish = () => {
-    handleAddModalState();
+    setIsUpdateOpen(false);
     handleHistoryFlag();
     setTimeout(() => {
       openNotification("bottomRight");
@@ -105,10 +104,17 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
     form.resetFields();
   };
 
-  const [open, setOpen] = useState(false);
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+  };
 
-  return (
-    <>
+  return(
+    <Modal
+      open={isUpdateOpen}
+      title="내역 수정"
+      onCancel={() => setIsUpdateOpen(false)}
+      footer={() => null}
+    >
       <Form
         layout="vertical"
         form={form}
@@ -116,13 +122,19 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
       >
-        <Form.Item name="금액" label="금액" rules={[{ required: true }]}>
+        <Form.Item 
+          name="금액" 
+          label="금액" 
+          rules={[{ required: true }]}
+          initialValue={'plus' in data ? data.plus : data.minus}
+        >
           <Input />
         </Form.Item>
         <Form.Item
           name={history === "plus" ? "수익처" : "지출처"}
           label={history === "plus" ? "수익처" : "지출처"}
           rules={[{ required: true }]}
+          initialValue={data.title}
         >
           <Input />
         </Form.Item>
@@ -130,6 +142,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
           name="메모" 
           label="메모" 
           rules={[{ required: true }]}
+          initialValue={data.content}
         >
           <Input />
         </Form.Item>
@@ -137,6 +150,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
           name="datepicker"
           label={history === "plus" ? "수익 일자" : "지출 일자"}
           {...config}
+          initialValue={dayjs(data.uploaded_at)}
         >
           <DatePicker />
         </Form.Item>
@@ -146,6 +160,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
               name="지출 카테고리"
               label="지출 카테고리"
               rules={[{ required: true }]}
+              initialValue={'minus' in data && data.category.category_id}
             >
               <Select
                 placeholder="지출 내역 카테고리를 선택해주세요"
@@ -177,6 +192,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
                 ) : null
               }
             </Form.Item>
+
             <button className={addButton} onClick={(e) => {
               e.preventDefault();
               setOpen(!open)
@@ -204,8 +220,9 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
           </Space>
         </Form.Item>
       </Form>
-    </>
-  );
-};
 
-export default AddHistoryForm;
+    </Modal>
+  );
+}
+
+export default UpdateHistoryModal;
