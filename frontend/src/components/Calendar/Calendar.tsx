@@ -1,52 +1,115 @@
-import { FC } from "react";
+import React, { useEffect, useRef, useState } from 'react'
 import {
-  calendarBody,
-  calendarContainer,
-  calendarDay,
-  calendarDayNames,
-} from "./Calendar.css.ts";
+  EventApi,
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+} from '@fullcalendar/core'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import { getEvents, Event } from '../../apis/events'
+import { createEventId } from './event-utils'
 
-interface Props {
-  year: number;
-  month: number;
+interface CalendarProps {
+  year: number,
+  month: number,
+  onDateChange: (year: number, month: number) => void
 }
 
-const Calendar: FC<Props> = ({ year, month }) => {
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const daysInMonth = getDaysInMonth(year, month);
-  const startDay = new Date(year, month, 1).getDay();
+const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
+  const calendarRef = useRef<FullCalendar>(null);
+  const [events, setEvents] = useState<Event[]>([]);
 
-  function getDaysInMonth(year: number, month: number): number {
-    return new Date(year, month + 1, 0).getDate();
+  useEffect(() => {
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
+      fetchEvents(year, month);
+    }
+  }, [year, month]);
+
+  const fetchEvents = async (year: number, month: number) => {
+    const startDate = `${year}-${month.toString().padStart(2, '0')}-01`;
+    const endDate = `${year}-${month.toString().padStart(2, '0')}-${new Date(year, month, 0).getDate()}`;
+    const fetchedEvents = await getEvents(startDate, endDate);
+    setEvents(fetchedEvents);
+  };
+
+  const handleDateSelect = (selectInfo: DateSelectArg) => {
+    let title = prompt('Please enter a new title for your event')
+    let calendarApi = selectInfo.view.calendar
+
+    calendarApi.unselect()
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay
+      })
+    }
   }
 
-  function renderDays() {
-    const days = [];
-    for (let i = 0; i < startDay; i++) {
-      days.push(<div key={`empty-${i}`} className={calendarDay}></div>);
+  const handleEventClick = (clickInfo: EventClickArg) => {
+    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      clickInfo.event.remove()
     }
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(
-        <div key={i} className={calendarDay}>
-          {i}
-        </div>
-      );
-    }
-    return days;
+  }
+
+  const handleEvents = (events: EventApi[]) => {
+  }
+
+  const handleDatesSet = (arg: any) => {
+    const date = arg.view.currentStart;
+    const newYear = date.getFullYear();
+    const newMonth = date.getMonth() + 1;
+    onDateChange(newYear, newMonth);
   }
 
   return (
-    <div className={calendarContainer}>
-      <div className={calendarBody}>
-        {daysOfWeek.map((day) => (
-          <div key={day} className={calendarDayNames}>
-            {day}
-          </div>
-        ))}
-        {renderDays()}
+    <div className='demo-app'>
+      <div className='demo-app-main'>
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: '',
+            center: 'title',
+            right: 'today'
+          }}
+          initialView='dayGridMonth'
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          events={events.map(event => ({
+            title: `${event.plus ? '+' : '-'}${event.plus || event.minus}`,
+            date: event.uploaded_at,
+            extendedProps: { ...event }
+          }))}
+          select={handleDateSelect}
+          eventContent={renderEventContent} 
+          eventClick={handleEventClick}
+          datesSet={handleDatesSet}
+        />
       </div>
     </div>
-  );
+  )
+}
+
+function renderEventContent(eventContent: EventContentArg) {
+  const { event } = eventContent;
+  const isPlus = event.extendedProps.plus !== undefined;
+  const amount = isPlus ? event.extendedProps.plus : event.extendedProps.minus;
+
+  return (
+    <div className={`fc-event-title ${isPlus ? 'plus' : 'minus'}`}>
+      {event.title}
+    </div>
+  )
 };
 
 export default Calendar;

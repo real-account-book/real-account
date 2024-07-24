@@ -13,6 +13,7 @@ export const MonthlyBox1 = style({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '40px auto 0',
+    border: 'none',
   });
 
   export const MonthlyBox2 = style({
@@ -24,6 +25,7 @@ export const MonthlyBox1 = style({
     justifyContent: 'center',
     alignItems: 'center',     
     margin: '20px auto',
+    border: 'none',
   });
 
   export const MonthlyBox3 = style({
@@ -35,6 +37,7 @@ export const MonthlyBox1 = style({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '20px auto',
+    border: 'none',
   });
 
   export const MonthlyBox4 = style({
@@ -46,6 +49,7 @@ export const MonthlyBox1 = style({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '20px auto',
+    border: 'none',
   });
 
   
@@ -58,4 +62,5 @@ export const MonthlyBox5 = style({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '20px auto',
+    border: 'none',
   });

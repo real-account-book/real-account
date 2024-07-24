@@ -9,11 +9,9 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-			{ index: true, element: <YearListPage /> },
-			{ path: 'month/:year', element: <MonthListPage /> },
-      // year e.g. 2024 (year)
-			{ path: 'detail/:date', element: <MonthDetailPage /> },
-      // date e.g. 202410 (year + month)
-		],
+      { path: ':year', element: <YearListPage /> },
+      { path: 'month/:yearmonth', element: <MonthListPage /> },
+      { path: 'detail/:date', element: <MonthDetailPage /> },
+    ],
   }
 ]);

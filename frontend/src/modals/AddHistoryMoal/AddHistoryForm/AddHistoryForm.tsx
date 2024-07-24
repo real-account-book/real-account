@@ -7,6 +7,9 @@ import { addPlus } from "../../../apis/plus";
 import useAddStateStore from "../../../store/addStateStore";
 import { dateFormatter } from "../../../utils/dateFormatter";
 import CategoryModal from "../../CategoryModal/CategoryModal";
+import useYearTotalStore from "../../../store/yearTotalStore";
+import useChangeHistoriesStore from "../../../store/changeHistories";
+import { addButton, buttonIcon, buttonText } from "./AddHistoryForm.css";
 
 type TAddHistoryForm = {
   history: "plus" | "minus";
@@ -27,6 +30,8 @@ const tailLayout = {
 const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const { Option } = Select;
   const { handleAddModalState } = useAddStateStore();
+  const { updateMinuses, updatePluses } = useYearTotalStore();
+  const { handleHistoryFlag } = useChangeHistoriesStore();
 
   const [form] = Form.useForm();
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -54,10 +59,10 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
   const onFinish = (values: any) => {
     let data;
     if (history === "plus") {
-      data = { plus: values["금액"] };
+      data = { plus: parseInt(values["금액"]) };
     } else {
       data = {
-        minus: values["금액"],
+        minus: parseInt(values["금액"]),
         category: values["지출 카테고리"],
       };
     }
@@ -76,14 +81,21 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
       uploaded_at: date,
     };
     if (history === "plus") {
-      addPlus(payload).then(() => successFinish());
+      addPlus(payload).then(() => {
+        updatePluses(parseInt(values["금액"]));
+        successFinish();
+      });
     } else if (history === "minus") {
-      addMinus(payload).then(() => successFinish());
+      addMinus(payload).then(() => {
+        updateMinuses(parseInt(values["금액"]));
+        successFinish();
+      });
     }
   };
 
   const successFinish = () => {
     handleAddModalState();
+    handleHistoryFlag();
     setTimeout(() => {
       openNotification("bottomRight");
     }, 300);
@@ -114,7 +126,11 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="메모" label="메모" rules={[{ required: true }]}>
+        <Form.Item 
+          name="메모" 
+          label="메모" 
+          rules={[{ required: true }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item
@@ -161,9 +177,12 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
                 ) : null
               }
             </Form.Item>
-            <button onClick={() => setOpen(!open)}>
-              <PlusCircleOutlined />
-              <div>카테고리 편집</div>
+            <button className={addButton} onClick={(e) => {
+              e.preventDefault();
+              setOpen(!open)
+            }}>
+              <PlusCircleOutlined className={buttonIcon}/>
+              <div className={buttonText}>카테고리 편집</div>
             </button>
             <CategoryModal
               open={open}
