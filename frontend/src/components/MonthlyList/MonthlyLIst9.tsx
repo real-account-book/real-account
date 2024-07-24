@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { alphabet, MonthlyBox5 } from './MonthlyList.css.ts';
 
-const MonthlyList5: FC = () => {
+const MonthlyList9: FC = () => {
   const { year } = useParams<{ year: string }>(); 
   const [plusTotal, setPlusTotal] = useState<number>(0);
   const [minusTotal, setMinusTotal] = useState<number>(0);
@@ -11,10 +11,10 @@ const MonthlyList5: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responsePlus = await fetch(`http://localhost:8888/api/total/plus/${year}-05-01/${year}-05-31`);
+        const responsePlus = await fetch(`http://localhost:8888/api/total/plus/${year}-09-01/${year}-09-30`);
         const plusData = await responsePlus.json();
         
-        const responseMinus = await fetch(`http://localhost:8888/api/total/minus/${year}-05-01/${year}-05-31`);
+        const responseMinus = await fetch(`http://localhost:8888/api/total/minus/${year}-09-01/${year}-09-30`);
         const minusData = await responseMinus.json();
         
         const plusSum = plusData.reduce((acc: number, item: { plus: number }) => acc + item.plus, 0);
@@ -34,17 +34,17 @@ const MonthlyList5: FC = () => {
 
   const handleClick = () => {
     if (year) {
-      navigate(`/month/${year}05`);
+      navigate(`/month/${year}09`);
     }
   };
 
   return (
     <button className={MonthlyBox5} onClick={handleClick}>
       <div className={alphabet}>
-        <span>{`5월 (+${plusTotal})/(-${minusTotal}) 내역`}</span>
+        <span>{`9월 (+${plusTotal})/(-${minusTotal}) 내역`}</span>
       </div>
     </button>
   );
 };
 
-export default MonthlyList5;
+export default MonthlyList9;
