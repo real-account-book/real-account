@@ -1,7 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import React, { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FC } from "react";
 import AddHistoryModal from "../../modals/AddHistoryMoal/AddHistoryModal";
 import useAddStateStore from "../../store/addStateStore";
 import {
@@ -53,40 +52,6 @@ const Header: FC = () => {
     getPlusTotal();
     getMinusTotal();
   }, [year]);
-  priceContainer,
-  redText,
-} from "./Header.css";
-import useYearTotalStore from "../../store/yearTotalStore";
-import { dateFormatter } from "../../utils/dateFormatter";
-import { getMinus, getPlus } from "../../apis/total";
-import { TMinusHistory, TPlusHistory } from "../../types/history.type";
-import AddButton from "../AddButton/AddButton";
-
-const Header: FC = () => {
-  const { handleAddModalState } = useAddStateStore();
-  const { year, yearlyData, setMinuses, setPluses } = useYearTotalStore();
-
-  const startedAt = dateFormatter(new Date().getFullYear(), 1, 1);
-  const endedAt = dateFormatter(new Date().getFullYear(), 12, 31);
-
-  const getPlusTotal = async () => {
-    let plusTotal = 0;
-    await getPlus(startedAt, endedAt).then((pluses: TPlusHistory[]) => {
-      pluses.map((plus) => plusTotal += plus.plus)
-    }).then(() => setPluses(plusTotal));
-  }
-  
-  const getMinusTotal = async () => {
-    let minusTotal = 0;
-    await getMinus(startedAt, endedAt).then((minuses: TMinusHistory[]) => {
-      minuses.map((minus) => minusTotal += minus.minus)
-    }).then(() => setMinuses(minusTotal));
-  }
-
-  useEffect(() => {
-    getPlusTotal();
-    getMinusTotal();
-  }, [])
 
   return (
     <header className={header}>

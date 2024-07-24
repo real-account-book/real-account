@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
   // database: process.env.DATABASE_KEY, // Accountbook => accountbook으로 수정
   // synchronize: true,
   // logging: false,
-  entities: [__dirname + "/entity/*.js"],
+  entities: [__dirname + "/entity/*.ts"],
   // migrations: [],
   // subscribers: [],
 });
