@@ -5,11 +5,11 @@ import { main } from './App.css.ts';
 import Footer from './components/Footer/Footer.tsx';
 
 const App: FC = () => {
-	return (
-		<>
+  return (
+    <>
       <Header />
       <main className={main}>
-        <Outlet/>
+        <Outlet />
       </main>
       <Footer />
 		</>
