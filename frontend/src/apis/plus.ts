@@ -2,7 +2,6 @@ import { BASE_URL } from "./BASE_URL";
 const PLUS_URL = `${BASE_URL}/plus`;
 
 type TAddPlusProps = {
-  id: number,
   plus: number,
   title: string,
   content: string,

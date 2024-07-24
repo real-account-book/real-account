@@ -24,6 +24,6 @@ const YearNavigator: FC = () => {
       <button className={button} onClick={incrementYear}>&gt;</button>
     </div>
   );
-}
+};
 
 export default YearNavigator;

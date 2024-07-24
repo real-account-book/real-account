@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source"
 import { Asset_minus } from "../entity/asset_minus"
+import { Asset_plus } from "../entity/asset_plus"
 
 export const useSearchMinus = async(param : number) => {
     const minusRepository = AppDataSource.getRepository(Asset_minus)
@@ -11,3 +12,12 @@ export const useSearchMinus = async(param : number) => {
     return minusInUse
   }
 
+export const useSearchPlus = async(param : number) => {
+  const plusRepository = AppDataSource.getRepository(Asset_plus)
+  const plusInUse =  await plusRepository.createQueryBuilder('asset_plus')
+  .select(`asset_plus`)
+  .where(`asset_plus.plus_id = :plus_id`, {plus_id : param})
+  .getOne()
+ 
+  return plusInUse
+}

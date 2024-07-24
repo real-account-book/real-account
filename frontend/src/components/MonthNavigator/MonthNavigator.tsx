@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { purpleBoxSecond, alphabet, button } from './MonthNavigator.css.ts';
+import { FC } from "react";
+import { alphabet, button, purpleBoxSecond } from "./MonthNavigator.css.ts";
 
 interface MonthNavigatorProps {
   year: number;
@@ -34,6 +34,6 @@ const MonthNavigator: FC<MonthNavigatorProps> = ({ year, month, onDateChange }) 
       <button className={button} onClick={incrementMonth}>&gt;</button>
     </div>
   );
-}
+};
 
 export default MonthNavigator;

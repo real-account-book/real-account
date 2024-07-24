@@ -4,13 +4,12 @@ import { StatusCodes } from "http-status-codes"
 
 export const validate = (req:Request,res: Response,next: NextFunction)=>{
     const err = validationResult(req);
-    if(err.isEmpty()){
-        return next();
-    }else{
-        return res.status(StatusCodes.BAD_REQUEST).json(err.array());
+    if(!err.isEmpty()){
+        return res.status(StatusCodes.BAD_REQUEST).json(err.array());   
     }
+    return next();
 }
 
-export const withCheckMsg = (item : string) => {
-    return check(`${item}`, `${item} 형식 오류`)
+export const withCheckMsg = (field : string) => {
+    return check(`${field}`, `${field} 형식 오류`)
 }

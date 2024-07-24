@@ -1,6 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import React, { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { FC } from "react";
 import AddHistoryModal from "../../modals/AddHistoryMoal/AddHistoryModal";
 import useAddStateStore from "../../store/addStateStore";
 import {
@@ -50,6 +51,12 @@ const Header: FC = () => {
     getPlusTotal();
     getMinusTotal();
   }, [year]);
+  priceContainer,
+  redText,
+} from "./Header.css";
+
+const Header: FC = () => {
+  const { handleAddModalState } = useAddStateStore();
 
   return (
     <header className={header}>
@@ -60,6 +67,7 @@ const Header: FC = () => {
         <div>합계 {yearlyData.pluses - yearlyData.minuses}</div>
       </div>
       <AddButton />
+
     </header>
   );
 };

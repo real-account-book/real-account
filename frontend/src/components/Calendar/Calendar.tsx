@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import React, { useEffect, useRef, useState } from 'react'
-=======
 import React, { useEffect, useState } from 'react'
->>>>>>> 72975d3177e6f805aa501856818664f51cbbb21b
 import {
   EventApi,
   DateSelectArg,
@@ -12,7 +9,6 @@ import {
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-<<<<<<< HEAD
 import { getEvents, Event } from '../../apis/events'
 
 interface CalendarProps {
@@ -131,19 +127,20 @@ export default function Calendar({ year, month }: CalendarProps) {
     // 여기에 click 이벤트 작성
   }
 
-  const handleEvents = (events: EventApi[]) => {
-    setCurrentEvents(events);
-  }
 
-  const initialDate = `${year}-${month.toString().padStart(2, '0')}-01`;
-
-  const dataSorting = (data: any) => {
-    const res = data.sort((a, b) => {
-      return (
-        new Date(a.uploaded_at).getTime() - new Date(b.uploaded_at).getTime()
+  function renderDays() {
+    const days = [];
+    for (let i = 0; i < startDay; i++) {
+      days.push(<div key={`empty-${i}`} className={calendarDay}></div>);
+    }
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(
+        <div key={i} className={calendarDay}>
+          {i}
+        </div>
       );
-    })
-    return res;
+    }
+    return days;
   }
 
   // 데이터 불러와서 총계 정리하는 로직
@@ -212,9 +209,8 @@ export default function Calendar({ year, month }: CalendarProps) {
           events={histories}
         />
       </div>
->>>>>>> 72975d3177e6f805aa501856818664f51cbbb21b
     </div>
-  )
-}
+  );
+};
 
 export default Calendar;

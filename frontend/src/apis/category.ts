@@ -60,3 +60,21 @@ export const addCategory =  async (payload: TAddCategoryProps) => {
     throw err;
   }
 }
+
+// 카테고리 항목 삭제
+export const deleteCategory =  async (categoryId: number) => {
+  try {
+    const response = await fetch(`${CATEGORY_URL}/${categoryId}`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json',},
+    })
+    if (!response.ok) {
+      throw new Error(`Error status: ${response.status}`)
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error fetching addCategory:", err);
+    throw err;
+  }
+}
+

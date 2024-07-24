@@ -1,3 +1,4 @@
+
 import { PlusOutlined } from '@ant-design/icons';
 import React, { FC } from 'react';
 import { addButton, header, priceContainer, blueText, redText, textAlign } from './MonthHeader.css';
@@ -18,7 +19,7 @@ const MonthHeader: FC<MonthHeaderProps> = ({ year, month }) => {
     }
   };
 
-  return(
+  return (
     <header className={header}>
       <div className={priceContainer}>
         {year && month ? ( 
@@ -33,11 +34,13 @@ const MonthHeader: FC<MonthHeaderProps> = ({ year, month }) => {
         )}
       </div>
       <button className={addButton} onClick={handleButtonClick}>
-        <div><PlusOutlined /></div>
+        <div>
+          <PlusOutlined />
+        </div>
         <div>월 소비 상세내역 보기</div>
       </button>
     </header>
   );
-}
+};
 
 export default MonthHeader;
