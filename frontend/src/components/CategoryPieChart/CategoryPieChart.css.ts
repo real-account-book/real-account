@@ -1,21 +1,30 @@
-import { style } from "@vanilla-extract/css";
+import { style, keyframes } from "@vanilla-extract/css";
 import { vars } from "../../App.css";
+
+const fadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
 
 export const assetImageContainer = style({
   width: '55%',
-  position: 'relative'
+  position: 'relative',
+  animation: `${fadeIn} 1s ease-in-out`,
+  // border: '1px dotted red'
 })
 
 export const assetImage = style({
-  width: 280
+  width: 280,
+  // border: '1px dotted blue'
 })
 
 export const assetTextBox = style({
   position: 'absolute',
-  bottom: '8%',
+  bottom: '7%',
   right: '4%',
   width: 250,
-  lineHeight: 1.5
+  lineHeight: 1.5,
+  // border: '1px dotted violet'
 })
 
 export const assetFirstText = style({

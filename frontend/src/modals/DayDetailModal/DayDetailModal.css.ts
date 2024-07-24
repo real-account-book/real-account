@@ -1,4 +1,5 @@
 import { style, globalStyle } from "@vanilla-extract/css";
+import { vars } from "../../App.css";
 
 export const scrollableContainer = style({
   // 스크롤이 필요한 컨테이너의 기본 스타일
@@ -27,7 +28,8 @@ globalStyle(`${scrollableContainer}::-webkit-scrollbar-thumb:hover`, {
 export const lowerContainer = style({
   display: `flex`,
   justifyContent: 'space-between',
-  padding: '20px 10px'
+  padding: '20px 10px',
+  borderTop: `1px solid ${vars.color.gray}`
 });
 
 export const addHistoryButton = style({

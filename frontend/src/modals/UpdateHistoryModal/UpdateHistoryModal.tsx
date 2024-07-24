@@ -10,6 +10,8 @@ import { updatePlus } from '../../apis/plus';
 import { updateMinus } from '../../apis/minus';
 import { dateFormatter } from '../../utils/dateFormatter';
 import useYearTotalStore from '../../store/yearTotalStore';
+import useChangeHistoriesStore from '../../store/changeHistories';
+import { addButton, buttonIcon, buttonText } from './UpdateHistoryModal.css';
 
 type YUpdateHistoryModalProps = {
   isUpdateOpen: boolean;
@@ -23,6 +25,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const { updateMinuses, updatePluses } = useYearTotalStore();
+  const { handleHistoryFlag } = useChangeHistoriesStore();
 
   useEffect(() => {
     getAllCategories().then((res) => setCategories(res));
@@ -91,6 +94,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
 
   const successFinish = () => {
     setIsUpdateOpen(false);
+    handleHistoryFlag();
     setTimeout(() => {
       openNotification("bottomRight");
     }, 300);
@@ -137,7 +141,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
         <Form.Item 
           name="메모" 
           label="메모" 
-          rules={[{ required: false }]}
+          rules={[{ required: true }]}
           initialValue={data.content}
         >
           <Input />
@@ -189,12 +193,12 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
               }
             </Form.Item>
 
-            <button onClick={(e) => {
+            <button className={addButton} onClick={(e) => {
               e.preventDefault();
               setOpen(!open)
             }}>
-              <PlusCircleOutlined />
-              <div>카테고리 편집</div>
+              <PlusCircleOutlined className={buttonIcon}/>
+              <div className={buttonText}>카테고리 편집</div>
             </button>
             <CategoryModal
               open={open}

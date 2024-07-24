@@ -14,25 +14,49 @@ import {
   title,
   titleBar,
 } from "./MonthDetailView.css";
+import useYearTotalStore from "../../store/yearTotalStore";
+import useMonthHistoriesStore from "../../store/monthHistoriesStore";
+import useChangeHistoriesStore from "../../store/changeHistories";
 
-type TMonthDetailViewProps = {
-  year: string;
-  month: string;
-};
+// type TMonthDetailViewProps = {
+//   year: string;
+//   month: string;
+// };
 
 // const { RangePicker } = DatePicker;
 
-const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
+const MonthDetailView = () => {
   const [filterCategory, setFilterCategory] = useState<number>(0);
   const [filterHistory, setFilterHistory] = useState<string>("total");
 
+  const { year } = useYearTotalStore();
+  const { month } = useMonthHistoriesStore();
+
+  const { historyFlag } = useChangeHistoriesStore();
+
   // const dateFormat = "YYYY/MM/DD";
 
+  // useEffect(() => {
+  //   const startedAt = dateFormatter(year, month, 1);
+  //   const endedAt = dateFormatter(year, month, 31);
+    
+  //   setData(startedAt, endedAt);
+  // }, []);
+
+  // const setData = async (startedAt:string, endedAt:string) => {
+  //   let plusData = await getPlus(startedAt, endedAt);
+  //   let minusData = await getMinus(startedAt, endedAt);
+  //   setMonthPlusHistories(plusData);
+  //   setMonthMinusHistories(minusData);
+  //   console.log(plusData, minusData)
+  // }
+
   useEffect(() => {
-    const startDate = dateFormatter(parseInt(year), parseInt(month), 1);
-    const endDate = dateFormatter(parseInt(year), parseInt(month), 31);
+    const startDate = dateFormatter(year, month, 1);
+    const endDate = dateFormatter(year, month, new Date(year, month, 0).getDate());
+
     getData(startDate, endDate, filterHistory, filterCategory);
-  }, [filterCategory, filterHistory]);
+  }, [filterCategory, filterHistory, historyFlag]);
 
   const [histories, setHistories] = useState<(TPlusHistory | TMinusHistory)[]>(
     []
@@ -54,7 +78,6 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
           return data.category.category_id === categoryKey;
         });
       }
-      console.log(minusData);
       plusData = [];
       await caculateTotal(plusData, minusData);
       let data: (TPlusHistory | TMinusHistory)[] = [...plusData, ...minusData];
@@ -135,10 +158,10 @@ const MonthDetailView = ({ year, month }: TMonthDetailViewProps) => {
           /> */}
           <div>
             {`${dateFormatter(
-            parseInt(year),
-            parseInt(month),
+            year,
+            month,
             1
-            )} ~ ${dateFormatter(parseInt(year), parseInt(month), 31)}`}
+            )} ~ ${dateFormatter(year, month, new Date(year, month, 0).getDate())}`}
           </div>
         </div>
         <div>

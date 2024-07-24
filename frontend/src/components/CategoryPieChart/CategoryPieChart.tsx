@@ -11,6 +11,7 @@ import { PieChartOutlined } from "@ant-design/icons";
 import assetImg from '../../assets/images/finance-app.png';
 import AddButton from "../AddButton/AddButton";
 import useYearTotalStore from "../../store/yearTotalStore";
+import useChangeHistoriesStore from "../../store/changeHistories";
 
 type TCategoryPieChartProps = {
   year: string;
@@ -24,11 +25,13 @@ type TCategoriesTotal = {
 
 const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
   const [categoriesTotal, setCategoriesTotal] = useState<TCategoriesTotal[]>([]);
+  const [checkload, setCheckLoad] = useState<boolean>(false);
   const { yearlyData } = useYearTotalStore();
+  const { historyFlag } = useChangeHistoriesStore();
 
   useEffect(() => {
     const startedAt = dateFormatter(parseInt(year), parseInt(month), 1);
-    const endedAt = dateFormatter(parseInt(year), parseInt(month), 31);
+    const endedAt = dateFormatter(parseInt(year), parseInt(month), new Date(parseInt(year), parseInt(month), 0).getDate());
     let totalArr: TCategoriesTotal[] = [];
     getAllCategories().then((allCategories) => {
       allCategories.map((category: TCategory) => {
@@ -50,40 +53,39 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
           setCategoriesTotal([...totalArr])
         })
       })
-    })
-  }, [])
+    }).then(() => setCheckLoad(true))
+  }, [historyFlag])
 
   return (
     <>
-    {yearlyData.pluses > 0 || yearlyData.minuses > 0  ? (
-      <PieChart width={400} height={280}>
-        <Pie
-          data={categoriesTotal}
-          dataKey="total"
-          nameKey="name"
-          cx="55%"
-          cy="55%"
-          outerRadius={100}
-          // innerRadius={60}
-          fill="#8884d8"
-          label
-        />
-      </PieChart>
-      ) : (
-        <div className={assetImageContainer}>
-          <img className={assetImage} src={assetImg} alt="asset-img.png" />
-          <div className={assetTextBox}>
-            <div>
-              <div className={assetFirstText}>통계로 소비 관리</div>
-              <div className={assetSecondText}>소비 내역을 입력하고 관리하세요</div>
-            </div>
-            <div className={addButtonBox}>
-              <AddButton />
+      {categoriesTotal.length > 0  ? (
+        <PieChart width={400} height={280}>
+          <Pie
+            data={categoriesTotal}
+            dataKey="total"
+            nameKey="name"
+            cx="55%"
+            cy="55%"
+            outerRadius={100}
+            // innerRadius={60}
+            fill="#8884d8"
+            label
+          />
+        </PieChart>
+        ) : (!checkload) ? (<div style={{width: '400px'}}></div>) : (
+          <div className={assetImageContainer}>
+            <img className={assetImage} src={assetImg} alt="asset-img.png" />
+            <div className={assetTextBox}>
+              <div>
+                <div className={assetFirstText}>통계로 소비 관리</div>
+                <div className={assetSecondText}>소비 내역을 입력하고 관리하세요</div>
+              </div>
+              <div className={addButtonBox}>
+                <AddButton />
+              </div>
             </div>
           </div>
-        </div>
-      )
-    }
+        )}
 
       <div>
         <MonthCalendarSmall dateY={year} dateM={month}/>

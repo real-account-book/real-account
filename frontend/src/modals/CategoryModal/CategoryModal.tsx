@@ -1,9 +1,11 @@
-import { DeleteOutlined } from "@ant-design/icons";
-import { Input, Modal } from "antd";
+import { DeleteOutlined, DownCircleOutlined, DownSquareOutlined, PlusCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
+import { Input, Modal, Button } from "antd";
 import { useState } from "react";
 import { addCategory, deleteCategory } from "../../apis/category";
 import { deleteButton } from "../../components/BoardView/DetailView/DetailView.css";
 import { TCategory } from "../../types/category.type";
+import { addButton, buttonIcon, buttonText } from "../UpdateHistoryModal/UpdateHistoryModal.css";
+import { addCategoryButton, addCategoryText, categoriesContainer, categoryBox } from "./CategoryModal.css";
 
 type TCategoryAddModal = {
   open: boolean;
@@ -58,26 +60,41 @@ const CategoryModal = ({
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
       width={350}
-    >
+      footer={[
+        <Button key="back" onClick={() => setOpen(!open)}>
+          닫기
+        </Button>
+      ]}
+    > 
+      <div className={categoriesContainer}>
       {categories.map((category, idx) => (
-        <div key={idx}>
+        <div key={idx} className={categoryBox}>
           <div>{category.category_name}</div>
           {/* <button className={buttons} onClick={() => {}}><FormOutlined /></button> */}
           <button
             className={deleteButton}
+            style={{ marginBottom: '5px'}}
             onClick={() => DeleteCategory(category, idx)}
           >
             <DeleteOutlined />
           </button>
         </div>
       ))}
-      <button onClick={() => setHandleInput(!handleInput)}>
-        카테고리 추가
-      </button>
+      </div>
+
+      <div style={{ marginTop: '15px'}}>
+        <button className={addButton} onClick={() => setHandleInput(!handleInput)}>
+          {!handleInput ? (<RightCircleOutlined className={buttonIcon}/>) : (<DownCircleOutlined className={buttonIcon}/>)}
+          <div className={buttonText}>{!handleInput ? '카테고리 추가' : '카테고리 추가 닫기'}</div>
+        </button>
+      </div>
       {handleInput && (
         <>
-          <Input onChange={(e) => setCategoryName(e.target.value)} />
-          <button onClick={AddCategories}>카테고리 등록</button>
+          <Input onChange={(e) => setCategoryName(e.target.value)} placeholder="추가하려는 카테고리 이름을 입력하세요"/>
+          <button className={addCategoryButton} onClick={AddCategories}>
+            <PlusCircleOutlined className={buttonIcon}/>
+            <div className={addCategoryText}>카테고리 추가하기</div>
+          </button>
         </>
       )}
     </Modal>

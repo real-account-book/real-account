@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "../../App.css";
+import { vars } from "../../../App.css";
+
 
 export const addButton = style({
   display: `flex`,

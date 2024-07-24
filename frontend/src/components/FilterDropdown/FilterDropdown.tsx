@@ -11,6 +11,11 @@ type TFilterDropDownProps = {
   setFilterHistory: (key: string) => void;
 };
 
+type menu = {
+  label: string;
+  key: string;
+}
+
 const initialItems: MenuProps["items"] = [
   {
     label: "전체",
@@ -31,20 +36,17 @@ const FilterDropdown = ({
   setFilterCategory,
   setFilterHistory,
 }: TFilterDropDownProps) => {
-  const state: string = type === "history" ? "전체" : "카테고리 선택";
-  const [items, setItems] = useState<MenuProps["items"]>([]);
+  const [state, seState] = useState<string>(type === "history" ? "전체" : "카테고리 선택")
+  const [items, setItems] = useState<MenuProps["items"]>(initialItems);
 
   const onClick: MenuProps["onClick"] = ({ key }: any) => {
     if (type === "history") {
+      setFilterCategory(0);
       setFilterHistory(key);
-      if (key === "plus") {
-        setFilterCategory(0);
-      }
     } else {
       setFilterHistory("minus");
       setFilterCategory(parseInt(key));
     }
-    message.info(`Click on item ${key}`);
   };
 
   useEffect(() => {
@@ -69,14 +71,16 @@ const FilterDropdown = ({
 
 
   return (
-    <Dropdown menu={{ items, onClick }} trigger={["click"]}>
-      <a onClick={(e) => e.preventDefault()}>
-        <Space>
-          {state}
-          <DownOutlined />
-        </Space>
-      </a>
-    </Dropdown>
+    <div style={{ cursor: 'pointer'}}>
+      <Dropdown menu={{ items, onClick }} trigger={["click"]}>
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            {state}
+            <DownOutlined />
+          </Space>
+        </a>
+      </Dropdown>
+    </div>
   );
 };
 

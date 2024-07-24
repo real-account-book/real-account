@@ -1,9 +1,4 @@
 import { create } from 'zustand';
-import { dateFormatter } from '../utils/dateFormatter';
-import { getMinus, getPlus } from '../apis/total';
-import { TMinusHistory, TPlusHistory } from '../types/history.type';
-import { updatePlus } from '../apis/plus';
-import { updateMinus } from '../apis/minus';
 
 type TYearlyData = {
   minuses: number;

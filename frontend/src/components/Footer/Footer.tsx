@@ -6,7 +6,7 @@ const Footer = () => {
   return(
     <div className={footerContainer}>
       <div className={teamName}>김광훈 멘토님 팀 : 김장훈 서동화 팽지우</div>
-      <a className={githubLink} href="https://github.com/real-account-book/real-account-book">
+      <a className={githubLink} target='_blank' href="https://github.com/real-account-book/real-account-book">
         <GithubOutlined style={{marginRight: 5}}/>
         <p>Github</p>
       </a>

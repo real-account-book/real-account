@@ -9,6 +9,7 @@ import UpdateHistoryModal from '../../../modals/UpdateHistoryModal/UpdateHistory
 import React, { useState } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import { Context } from 'express-validator/lib/context';
+import useChangeHistoriesStore from '../../../store/changeHistories.ts';
 
 type TDetailViewProps = {
   data: TMinusHistory | TPlusHistory
@@ -17,12 +18,13 @@ type TDetailViewProps = {
 const DetailView = ({ data }: TDetailViewProps) => {
   const { handleAddModalState } = useAddStateStore();
   const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>(false)
+  const { handleHistoryFlag } = useChangeHistoriesStore();
 
   const handleDelete = () => {
     if ('plus_id' in data) {
-      deletePlus({plus_id: data.plus_id})
+      deletePlus({plus_id: data.plus_id}).then(() => handleHistoryFlag())
     } else if ('minus_id' in data) {
-      deleteMinus({minus_id: data.minus_id})
+      deleteMinus({minus_id: data.minus_id}).then(() => handleHistoryFlag())
     }
   }
 

@@ -16,11 +16,16 @@ import {
 } from "./MonthDetailPage.css";
 import { RightOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
+import useYearTotalStore from "../../store/yearTotalStore";
+import useMonthHistoriesStore from "../../store/monthHistoriesStore";
 
 const MonthDetailPage = () => {
   const date: string = location.pathname.split("/")[2];
   const year: string = date.slice(0, 4);
   const month: string = date.slice(4);
+
+  const { setYear } = useYearTotalStore();
+  const { setMonth } = useMonthHistoriesStore();
 
   const navigate = useNavigate();
 
@@ -34,6 +39,9 @@ const MonthDetailPage = () => {
     const timer = setTimeout(() => {
       setShouldRender(true);
     }, 700);
+
+    setYear(parseInt(date.slice(0, 4)));
+    setMonth(parseInt(date.slice(4)));
 
     return () => clearTimeout(timer);
   }, [])
@@ -69,7 +77,7 @@ const MonthDetailPage = () => {
             <CategoryPieChart year={year} month={month} />
           </div>
     
-          <MonthDetailView year={year} month={month} />
+          <MonthDetailView />
         </>
       )}
 

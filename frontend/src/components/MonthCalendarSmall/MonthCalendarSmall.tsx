@@ -1,10 +1,11 @@
 import { Calendar, theme } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDayHistories } from "../../hooks/useDayHistories";
 import DayDetailModal from "../../modals/DayDetailModal/DayDetailModal";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type";
 import { dateFormatter } from "../../utils/dateFormatter";
+import useChangeHistoriesStore from "../../store/changeHistories";
 
 type TMonthCalendarSmall = {
   dateY: string;
@@ -28,6 +29,7 @@ const MonthCalendarSmall = ({ dateY, dateM }: TMonthCalendarSmall) => {
   );
 
   const { token } = theme.useToken();
+  const { historyFlag } = useChangeHistoriesStore();
 
   const showLoading = () => {
     setDayModalOpen(true);
@@ -45,6 +47,11 @@ const MonthCalendarSmall = ({ dateY, dateM }: TMonthCalendarSmall) => {
     const date: string = dateFormatter(2024, month, newValue.date());
     useDayHistories({ date, setHistories });
   };
+
+  useEffect(() => {
+    const date: string = dateFormatter(2024, month, selectedDate)
+    useDayHistories({ date, setHistories });
+  }, [historyFlag])
 
   const wrapperStyle: React.CSSProperties = {
     width: 300,
