@@ -10,6 +10,16 @@ body {
   padding: 1em;
 }
 
+.fc-toolbar-chunk .fc-button.fc-today-button {
+  background-color: #d3adf7 !important;
+  border-color: #d3adf7 !important;
+}
+
+.fc-toolbar-chunk .fc-button.fc-today-button:hover {
+  background-color: #c29ce5 !important;
+  border-color: #c29ce5 !important;
+}
+
 .fc {
   max-width: 1400px; 
   width: 100%; 
@@ -29,4 +39,25 @@ body {
   .fc {
     width: 100%;
   }
+}
+
+.fc-event {
+  border: none !important;
+  background: none !important;
+}
+
+.fc-event-title {
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.fc-event-title.plus {
+  background-color: rgba(0, 0, 255, 0.1);
+  color: blue;
+}
+
+.fc-event-title.minus {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: red;
 }
