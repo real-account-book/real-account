@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Modal, Select, Space } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getAllCategories } from '../../apis/category';
 import { TCategory } from '../../types/category.type';
@@ -128,7 +128,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
           rules={[{ required: true }]}
           initialValue={'plus' in data ? data.plus : data.minus}
         >
-          <Input />
+          <InputNumber min={0} />
         </Form.Item>
         <Form.Item
           name={history === "plus" ? "수익처" : "지출처"}
