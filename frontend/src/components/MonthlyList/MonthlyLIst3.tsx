@@ -11,10 +11,10 @@ const MonthlyList3: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responsePlus = await fetch(`http://localhost:8888/api/total/plus/${year}-03-01/${year}-03-31`);
+        const responsePlus = await fetch(`http://3.38.102.194:8888/api/total/plus/${year}-03-01/${year}-03-31`);
         const plusData = await responsePlus.json();
         
-        const responseMinus = await fetch(`http://localhost:8888/api/total/minus/${year}-03-01/${year}-03-31`);
+        const responseMinus = await fetch(`http://3.38.102.194:8888/api/total/minus/${year}-03-01/${year}-03-31`);
         const minusData = await responseMinus.json();
         
         const plusSum = plusData.reduce((acc: number, item: { plus: number }) => acc + item.plus, 0);

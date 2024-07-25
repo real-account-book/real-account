@@ -17,10 +17,10 @@ const MonthlyList2: FC = () => {
       try {
         const endDate = isLeapYear(Number(year)) ? '29' : '28';
         
-        const responsePlus = await fetch(`http://localhost:8888/api/total/plus/${year}-02-01/${year}-02-${endDate}`);
+        const responsePlus = await fetch(`http://3.38.102.194:8888/api/total/plus/${year}-02-01/${year}-02-${endDate}`);
         const plusData = await responsePlus.json();
         
-        const responseMinus = await fetch(`http://localhost:8888/api/total/minus/${year}-02-01/${year}-02-${endDate}`);
+        const responseMinus = await fetch(`http://3.38.102.194:8888/api/total/minus/${year}-02-01/${year}-02-${endDate}`);
         const minusData = await responseMinus.json();
         
         const plusSum = plusData.reduce((acc: number, item: { plus: number }) => acc + item.plus, 0);
