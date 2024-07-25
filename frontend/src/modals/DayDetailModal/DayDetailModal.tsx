@@ -3,7 +3,7 @@ import { Button, Modal } from "antd";
 import BoardView from "../../components/BoardView/BoardView.tsx";
 import useAddStateStore from "../../store/addStateStore.ts";
 import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
-import { addHistoryButton, lowerContainer, scrollableContainer } from "./DayDetailModal.css.ts";
+import { addButtonContainer, addHistoryButton, dayTotalContainer, dayTotalDate, dayTotalPrice, lowerContainer, scrollableContainer } from "./DayDetailModal.css.ts";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type.ts";
 import { useEffect, useState } from "react";
 import useDayHistoriesStore from "../../store/dayHistoriesStore.ts";
@@ -27,7 +27,6 @@ const DayDetailModal = ({
   histories
 }: TDayModalProps) => {
   const month: number = selectedMonth + 1;
-  const { handleAddModalState } = useAddStateStore();
   const [dayTotal, setDayTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -72,11 +71,15 @@ const DayDetailModal = ({
         <BoardView histories={histories}/>
       </div>
       <div className={lowerContainer}>
-        <AddButton />
+        <div className={addButtonContainer}>
+          <AddButton />
+        </div>
 
-        <div>
-          <div>{dayTotal < 0 ? '-' : '+'} {Math.abs(dayTotal)} 원</div>
-          <div>
+        <div className={dayTotalContainer}>
+          <div className={dayTotalPrice}>
+            {dayTotal < 0 ? '-' : '+'} {Math.abs(dayTotal)} 원
+          </div>
+          <div className={dayTotalDate}>
             24년 {month}월 {selectedDate}일 합계
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Dropdown, message, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../apis/category";
 import { TCategory } from "../../types/category.type";
+import useChangeHistoriesStore from "../../store/changeHistories";
 
 type TFilterDropDownProps = {
   type: "history" | "categories";
@@ -36,6 +37,7 @@ const FilterDropdown = ({
   setFilterCategory,
   setFilterHistory,
 }: TFilterDropDownProps) => {
+  const { categoryFlag } = useChangeHistoriesStore();
   const [state, seState] = useState<string>(type === "history" ? "전체" : "카테고리 선택")
   const [items, setItems] = useState<MenuProps["items"]>(initialItems);
 
@@ -67,7 +69,7 @@ const FilterDropdown = ({
           setItems([...categoriesArr]);
         });
     }
-  }, []);
+  }, [categoryFlag]);
 
 
   return (
