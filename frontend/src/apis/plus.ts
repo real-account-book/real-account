@@ -20,7 +20,7 @@ type TPlusContents  = {
 }
 
 type TUpdatePlusProps = {
-  plus_id: string,
+  plus_id: number,
   payload: TPlusContents
 }
 
