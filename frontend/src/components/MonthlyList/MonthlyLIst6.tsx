@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { alphabet, MonthlyBox2 } from './MonthlyList.css.ts';
 

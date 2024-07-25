@@ -1,5 +1,5 @@
 import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllCategories } from '../../apis/category';
 import { TCategory } from '../../types/category.type';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -68,7 +68,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
       selectedDate.date()
     );
 
-    let payload: any = {
+    const payload: any = {
       ...dataBox,
       title: history === "plus" ? values["수익처"] : values["지출처"],
       content: values["메모"],

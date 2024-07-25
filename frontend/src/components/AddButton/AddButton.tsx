@@ -1,4 +1,4 @@
-import React from 'react';
+
 import AddHistoryModal from '../../modals/AddHistoryMoal/AddHistoryModal';
 import { PlusOutlined } from '@ant-design/icons';
 import useAddStateStore from '../../store/addStateStore';

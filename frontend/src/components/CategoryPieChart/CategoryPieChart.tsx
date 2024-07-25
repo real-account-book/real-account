@@ -10,9 +10,7 @@ import { addButtonBox, assetFirstText, assetImage, assetImageContainer, assetSec
 import { PieChartOutlined } from "@ant-design/icons";
 import assetImg from '../../assets/images/finance-app.png';
 import AddButton from "../AddButton/AddButton";
-import useYearTotalStore from "../../store/yearTotalStore";
 import useChangeHistoriesStore from "../../store/changeHistories";
-import { Divider } from "antd";
 
 type TCategoryPieChartProps = {
   year: string;
@@ -32,7 +30,7 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
   useEffect(() => {
     const startedAt = dateFormatter(parseInt(year), parseInt(month), 1);
     const endedAt = dateFormatter(parseInt(year), parseInt(month), new Date(parseInt(year), parseInt(month), 0).getDate());
-    let totalArr: TCategoriesTotal[] = [];
+    const totalArr: TCategoriesTotal[] = [];
     getAllCategories().then((allCategories) => {
       allCategories.map((category: TCategory) => {
         let total: number = 0;

@@ -1,14 +1,12 @@
 import { CopyOutlined, DeleteOutlined, FormOutlined } from '@ant-design/icons';
 import { card, leftContainer, contents, rightContainer, memoButton, updateButton, deleteButton, minusPrice, plusPrice, dateText, dataBox, category } from './DetailView.css.ts';
 import { TMinusHistory, TPlusHistory } from '../../../types/history.type.ts';
-import useAddStateStore from '../../../store/addStateStore.ts';
 import { deletePlus } from '../../../apis/plus.ts';
 import { deleteMinus } from '../../../apis/minus.ts';
 import { Popover, Tooltip, notification } from 'antd';
 import UpdateHistoryModal from '../../../modals/UpdateHistoryModal/UpdateHistoryModal.tsx';
 import React, { useState } from 'react';
 import { NotificationPlacement } from 'antd/es/notification/interface';
-import { Context } from 'express-validator/lib/context';
 import useChangeHistoriesStore from '../../../store/changeHistories.ts';
 
 type TDetailViewProps = {
@@ -16,7 +14,6 @@ type TDetailViewProps = {
 }
 
 const DetailView = ({ data }: TDetailViewProps) => {
-  const { handleAddModalState } = useAddStateStore();
   const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>(false)
   const { handleHistoryFlag } = useChangeHistoriesStore();
 

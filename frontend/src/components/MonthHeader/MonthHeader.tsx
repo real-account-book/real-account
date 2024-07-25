@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { header, headerTitle, priceContainer, blueText, redText, addButton, buttonIcon, buttonText } from './MonthHeader.css';
 import { getMinus, getPlus } from '../../apis/total';

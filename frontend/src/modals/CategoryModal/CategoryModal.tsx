@@ -1,4 +1,4 @@
-import { DeleteOutlined, DownCircleOutlined, DownSquareOutlined, PlusCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DownCircleOutlined, PlusCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { Input, Modal, Button } from "antd";
 import { useState } from "react";
 import { addCategory, deleteCategory } from "../../apis/category";
@@ -43,7 +43,7 @@ const CategoryModal = ({
 
   const DeleteCategory = async (category: TCategory, idx: number) => {
     deleteCategory(category.category_id)
-      .then((_) => {
+      .then(() => {
         const categoriesCopy = categories;
         categoriesCopy.splice(idx, 1);
         setCategories([...categoriesCopy]);
