@@ -12,7 +12,7 @@ interface CalendarProps {
   onDateChange: (year: number, month: number) => void
 }
 
-const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
+const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
   const date = `${year}-${month.toString().padStart(2, '0')}-01`;
   
   const calendarRef = useRef<FullCalendar>(null);
@@ -20,8 +20,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
 
   useEffect(() => {
     if (calendarRef.current) {
-      // const calendarApi = calendarRef.current.getApi();
-      // calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
       fetchEvents(year, month);
     }
   }, [year, month]);
@@ -32,13 +30,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
     const fetchedEvents = await getEvents(startDate, endDate);
     setEvents(fetchedEvents);
   };
-
-  const handleDatesSet = (arg: any) => {
-    const date = arg.view.currentStart;
-    const newYear = date.getFullYear();
-    const newMonth = date.getMonth() + 1;
-    // onDateChange(newYear, newMonth);
-  }
 
   return (
     <div className='demo-app'>
@@ -62,7 +53,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
             extendedProps: { ...event }
           }))}
           eventContent={renderEventContent}
-          datesSet={handleDatesSet}
           key={date}
         />
       </div>

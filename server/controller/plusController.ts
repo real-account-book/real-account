@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import {AppDataSource} from '../data-source'
 import { Asset_plus } from "../entity/asset_plus";
 import { Request, Response } from 'express';
-import { useSearchPlus } from '../migration/useSearch';
+import { useSearchPlus } from '../util/useSearch';
 
 export const addPlus = async (req : Request,res : Response) => {
     const {plus, title, content, uploaded_at} = req.body;
