@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Form, Input, Select, Space } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../../apis/category";
 import { addMinus } from "../../../apis/minus";
@@ -117,7 +117,7 @@ const AddHistoryForm = ({ history, openNotification }: TAddHistoryForm) => {
         style={{ maxWidth: 600 }}
       >
         <Form.Item name="금액" label="금액" rules={[{ required: true }]}>
-          <Input />
+          <InputNumber  min={0} />
         </Form.Item>
         <Form.Item
           name={history === "plus" ? "수익처" : "지출처"}

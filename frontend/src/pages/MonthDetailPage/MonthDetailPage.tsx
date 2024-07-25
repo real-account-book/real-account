@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMinus, getPlus } from "../../apis/total";
+import { RightOutlined } from "@ant-design/icons";
+import { Skeleton } from "antd";
 import CategoryPieChart from "../../components/CategoryPieChart/CategoryPieChart";
 import MonthDetailView from "../../components/MonthDetailView/MonthDetailView";
-import { dateFormatter } from "../../utils/dateFormatter";
+import useYearTotalStore from "../../store/yearTotalStore";
+import useMonthHistoriesStore from "../../store/monthHistoriesStore";
 import {
   addButton,
   bodyContents,
@@ -14,12 +16,8 @@ import {
   titleBar,
   titleBox,
 } from "./MonthDetailPage.css";
-import { RightOutlined } from "@ant-design/icons";
-import { Skeleton } from "antd";
-import useYearTotalStore from "../../store/yearTotalStore";
-import useMonthHistoriesStore from "../../store/monthHistoriesStore";
 
-const MonthDetailPage = () => {
+const MonthDetailPage: React.FC = () => {
   const date: string = location.pathname.split("/")[2];
   const year: string = date.slice(0, 4);
   const month: string = date.slice(4);
@@ -30,7 +28,7 @@ const MonthDetailPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate(`/month/${year}`);
+    navigate(`/month/${year}${month}`);
   };
 
   const [shouldRender, setShouldRender] = useState(false);
@@ -40,14 +38,11 @@ const MonthDetailPage = () => {
       setShouldRender(true);
     }, 700);
 
-    setYear(parseInt(date.slice(0, 4)));
-    setMonth(parseInt(date.slice(4)));
+    setYear(parseInt(year));
+    setMonth(parseInt(month));
 
     return () => clearTimeout(timer);
-  }, [])
-
-  // 렌더링 되는 시간 늦춰줌
-  if (!shouldRender) { }
+  }, [year, month, setYear, setMonth]);
 
   return (
     <div className={container}>
@@ -65,22 +60,21 @@ const MonthDetailPage = () => {
 
       {!shouldRender ? (
         <>
-          <div style={{display: 'flex', marginBottom: '20px'}}>
-            <Skeleton paragraph={{ rows: 8 }}/>
-            <Skeleton paragraph={{ rows: 8 }}/>
+          <div style={{ display: "flex", marginBottom: "20px" }}>
+            <Skeleton paragraph={{ rows: 8 }} />
+            <Skeleton paragraph={{ rows: 8 }} />
           </div>
-          <Skeleton paragraph={{ rows: 6 }}/>
+          <Skeleton paragraph={{ rows: 6 }} />
         </>
-      ): (
+      ) : (
         <>
           <div className={bodyContents}>
             <CategoryPieChart year={year} month={month} />
           </div>
-    
+
           <MonthDetailView />
         </>
       )}
-
     </div>
   );
 };
