@@ -1,6 +1,6 @@
 import { DownOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Dropdown, message, Space } from "antd";
+import { Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../apis/category";
 import { TCategory } from "../../types/category.type";
@@ -11,11 +11,6 @@ type TFilterDropDownProps = {
   setFilterCategory: (key: number) => void;
   setFilterHistory: (key: string) => void;
 };
-
-type menu = {
-  label: string;
-  key: string;
-}
 
 const initialItems: MenuProps["items"] = [
   {
@@ -38,7 +33,7 @@ const FilterDropdown = ({
   setFilterHistory,
 }: TFilterDropDownProps) => {
   const { categoryFlag } = useChangeHistoriesStore();
-  const [state, seState] = useState<string>(type === "history" ? "전체" : "카테고리 선택")
+  const state: string = type === "history" ? "전체" : "카테고리 선택";
   const [items, setItems] = useState<MenuProps["items"]>(initialItems);
 
   const onClick: MenuProps["onClick"] = ({ key }: any) => {

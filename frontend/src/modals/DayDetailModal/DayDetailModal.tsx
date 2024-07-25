@@ -1,12 +1,8 @@
-import { PlusOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import BoardView from "../../components/BoardView/BoardView.tsx";
-import useAddStateStore from "../../store/addStateStore.ts";
-import AddHistoryModal from "../AddHistoryMoal/AddHistoryModal.tsx";
-import { addButtonContainer, addHistoryButton, dayTotalContainer, dayTotalDate, dayTotalPrice, lowerContainer, scrollableContainer } from "./DayDetailModal.css.ts";
+import { addButtonContainer,dayTotalContainer, dayTotalDate, dayTotalPrice, lowerContainer, scrollableContainer } from "./DayDetailModal.css.ts";
 import { TMinusHistory, TPlusHistory } from "../../types/history.type.ts";
 import { useEffect, useState } from "react";
-import useDayHistoriesStore from "../../store/dayHistoriesStore.ts";
 import AddButton from "../../components/AddButton/AddButton.tsx";
 
 type TDayModalProps = {

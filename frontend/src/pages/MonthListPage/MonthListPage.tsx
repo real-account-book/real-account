@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import MonthHeader from '../../components/MonthHeader/MonthHeader';
 import YearNavigator2 from '../../components/YearNavigator/YearNavigator2';
 import MonthNavigator from '../../components/MonthNavigator/MonthNavigator';
 import Calendar from '../../components/Calendar/Calendar';
 import '../../components/Calendar/Calendar.css';
-import useYearTotalStore from '../../store/yearTotalStore';
 
 const MonthListPage = () => {
   const { yearmonth } = useParams<{ yearmonth: string }>();

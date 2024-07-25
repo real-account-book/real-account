@@ -1,13 +1,7 @@
-import { PlusOutlined } from "@ant-design/icons";
-import React, { FC, useEffect } from "react";
+import  { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import AddHistoryModal from "../../modals/AddHistoryMoal/AddHistoryModal";
-import useAddStateStore from "../../store/addStateStore";
 import {
-  addButton,
   blueText,
-  buttonIcon,
-  buttonText,
   header,
   headerTitle,
   priceContainer,
@@ -20,7 +14,6 @@ import { TMinusHistory, TPlusHistory } from "../../types/history.type";
 import AddButton from "../AddButton/AddButton";
 
 const Header: FC = () => {
-  const { handleAddModalState } = useAddStateStore();
   const { yearmonth } = useParams<{ yearmonth: string }>();
   const { year, setYear, yearlyData, setMinuses, setPluses } = useYearTotalStore();
 

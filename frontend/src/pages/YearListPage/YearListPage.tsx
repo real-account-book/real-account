@@ -1,5 +1,3 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
 import YearNavigator from '../../components/YearNavigator/YearNavigator.tsx';
 import MonthlyList from '../../components/MonthlyList/MonthlyLIst.tsx';
 import MonthlyList2 from '../../components/MonthlyList/MonthlyLIst2.tsx';
@@ -15,8 +13,6 @@ import MonthlyList11 from '../../components/MonthlyList/MonthlyLIst11.tsx';
 import MonthlyList12 from '../../components/MonthlyList/MonthlyLIst12.tsx';
 
 const YearListPage = () => {
-  const { year } = useParams<{ year: string }>();
-  const currentYear = parseInt(year ?? '2024', 10);
   return (
     <>
       <div>

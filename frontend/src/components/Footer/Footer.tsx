@@ -1,4 +1,3 @@
-import React from 'react';
 import { footerContainer, githubLink, teamName } from './Footer.css';
 import { GithubOutlined } from '@ant-design/icons';
 

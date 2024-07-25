@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { purpleBox, alphabet, button } from './YearNavigator.css.ts';
 

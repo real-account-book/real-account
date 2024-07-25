@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  EventApi,
   EventContentArg,
 } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
@@ -70,7 +69,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
 function renderEventContent(eventContent: EventContentArg) {
   const { event } = eventContent;
   const isPlus = event.extendedProps.plus !== undefined;
-  const amount = isPlus ? event.extendedProps.plus : event.extendedProps.minus;
   return (
     <div className={`fc-event-title ${isPlus ? 'plus' : 'minus'}`}>
       {event.title}
