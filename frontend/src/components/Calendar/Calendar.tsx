@@ -13,6 +13,8 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
+  const date = `${year}-${month.toString().padStart(2, '0')}-01`;
+  
   const calendarRef = useRef<FullCalendar>(null);
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -21,6 +23,7 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
       // const calendarApi = calendarRef.current.getApi();
       // calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
       fetchEvents(year, month);
+      console.log('여기 캘린더 페이지', year, month)
     }
   }, [year, month]);
 
@@ -42,7 +45,7 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
     <div className='demo-app'>
       <div className='demo-app-main'>
         <FullCalendar
-          initialDate={`${year}-${month.toString().padStart(2, '0')}-01`}
+          initialDate={date}
           ref={calendarRef}
           plugins={[dayGridPlugin]}
           headerToolbar={{
@@ -61,6 +64,7 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
           }))}
           eventContent={renderEventContent}
           datesSet={handleDatesSet}
+          key={date}
         />
       </div>
     </div>

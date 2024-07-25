@@ -1,15 +1,13 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { purpleBox, alphabet, button } from './YearNavigator.css.ts';
 
 interface YearNavigatorProps {
   year: number;
   month: number;
-  onDateChange?: (year: number, month: number) => void;
+  onDateChange: (year: number, month: number) => void;
 }
 
 const YearNavigator2: FC<YearNavigatorProps> = ({ year, month, onDateChange }) => {
-  const navigate = useNavigate();
 
   const incrementYear = () => {
     const newYear = year + 1;
