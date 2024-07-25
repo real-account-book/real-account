@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import MonthHeader from '../../components/MonthHeader/MonthHeader';
 import YearNavigator2 from '../../components/YearNavigator/YearNavigator2';

@@ -1,7 +1,4 @@
 import { create } from "zustand";
-import { TMinusHistory, TPlusHistory } from "../types/history.type";
-import { getMinus, getPlus } from "../apis/total";
-import { dateFormatter } from "../utils/dateFormatter";
 
 
 type TYearlyData = {

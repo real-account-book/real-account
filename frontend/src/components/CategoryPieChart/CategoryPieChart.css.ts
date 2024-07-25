@@ -1,6 +1,18 @@
 import { style, keyframes } from "@vanilla-extract/css";
 import { vars } from "../../App.css";
 
+export const pieChartTitle = style({
+  margin: '10px 0 0 40px',
+  fontSize: 18,
+  color: vars.color.fontGray
+})
+
+export const categoryRankBox = style({
+  margin: '10px 10px 0 45px',
+  border: `1px solid ${vars.color.gray}`,
+  padding: '10px 20px 10px 18px',
+})
+
 const fadeIn = keyframes({
   from: { opacity: 0 },
   to: { opacity: 1 },
@@ -45,6 +57,7 @@ export const addButtonBox = style({
 export const categoryMaxBox = style({
   borderRadius: '5%',
   padding: 10,
+  margin: '5px 0 0 0',
   color: 'white',
   backgroundColor: vars.color.second,
 })

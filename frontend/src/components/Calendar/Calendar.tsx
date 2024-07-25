@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  EventApi,
-  DateSelectArg,
-  EventClickArg,
   EventContentArg,
 } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
 import { getEvents, Event } from '../../apis/events'
-import { createEventId } from './event-utils'
 
 interface CalendarProps {
   year: number,
@@ -36,32 +31,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
     setEvents(fetchedEvents);
   };
 
-  const handleDateSelect = (selectInfo: DateSelectArg) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect()
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  }
-
-  const handleEventClick = (clickInfo: EventClickArg) => {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
-    }
-  }
-
-  const handleEvents = (events: EventApi[]) => {
-  }
-
   const handleDatesSet = (arg: any) => {
     const date = arg.view.currentStart;
     const newYear = date.getFullYear();
@@ -74,25 +43,22 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
       <div className='demo-app-main'>
         <FullCalendar
           ref={calendarRef}
-          plugins={[dayGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin]}
           headerToolbar={{
             left: '',
             center: 'title',
             right: 'today'
           }}
           initialView='dayGridMonth'
-          editable={true}
-          selectable={true}
-          selectMirror={true}
+          editable={false}
+          selectable={false}
           dayMaxEvents={true}
           events={events.map(event => ({
             title: `${event.plus ? '+' : '-'}${event.plus || event.minus}`,
             date: event.uploaded_at,
             extendedProps: { ...event }
           }))}
-          select={handleDateSelect}
-          eventContent={renderEventContent} 
-          eventClick={handleEventClick}
+          eventContent={renderEventContent}
           datesSet={handleDatesSet}
         />
       </div>
@@ -103,8 +69,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
 function renderEventContent(eventContent: EventContentArg) {
   const { event } = eventContent;
   const isPlus = event.extendedProps.plus !== undefined;
-  const amount = isPlus ? event.extendedProps.plus : event.extendedProps.minus;
-
   return (
     <div className={`fc-event-title ${isPlus ? 'plus' : 'minus'}`}>
       {event.title}

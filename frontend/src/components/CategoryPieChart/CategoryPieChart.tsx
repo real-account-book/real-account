@@ -6,11 +6,10 @@ import { dateFormatter } from "../../utils/dateFormatter";
 import { getCategoryTotal } from "../../apis/total";
 import { TCategory } from "../../types/category.type";
 import MonthCalendarSmall from "../MonthCalendarSmall/MonthCalendarSmall";
-import { addButtonBox, assetFirstText, assetImage, assetImageContainer, assetSecondText, assetTextBox, categoryIcon, categoryMaxBox, categoryName, categoryPrice } from "./CategoryPieChart.css";
+import { addButtonBox, assetFirstText, assetImage, assetImageContainer, assetSecondText, assetTextBox, categoryIcon, categoryMaxBox, categoryName, categoryPrice, categoryRankBox, pieChartTitle } from "./CategoryPieChart.css";
 import { PieChartOutlined } from "@ant-design/icons";
 import assetImg from '../../assets/images/finance-app.png';
 import AddButton from "../AddButton/AddButton";
-import useYearTotalStore from "../../store/yearTotalStore";
 import useChangeHistoriesStore from "../../store/changeHistories";
 
 type TCategoryPieChartProps = {
@@ -26,13 +25,12 @@ type TCategoriesTotal = {
 const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
   const [categoriesTotal, setCategoriesTotal] = useState<TCategoriesTotal[]>([]);
   const [checkload, setCheckLoad] = useState<boolean>(false);
-  const { yearlyData } = useYearTotalStore();
   const { historyFlag } = useChangeHistoriesStore();
 
   useEffect(() => {
     const startedAt = dateFormatter(parseInt(year), parseInt(month), 1);
     const endedAt = dateFormatter(parseInt(year), parseInt(month), new Date(parseInt(year), parseInt(month), 0).getDate());
-    let totalArr: TCategoriesTotal[] = [];
+    const totalArr: TCategoriesTotal[] = [];
     getAllCategories().then((allCategories) => {
       allCategories.map((category: TCategory) => {
         let total: number = 0;
@@ -59,19 +57,43 @@ const CategoryPieChart = ({year, month}: TCategoryPieChartProps) => {
   return (
     <>
       {categoriesTotal.length > 0  ? (
-        <PieChart width={400} height={280}>
-          <Pie
-            data={categoriesTotal}
-            dataKey="total"
-            nameKey="name"
-            cx="55%"
-            cy="55%"
-            outerRadius={100}
-            // innerRadius={60}
-            fill="#8884d8"
-            label
-          />
-        </PieChart>
+        <div>
+          {/* <div className={pieChartTitle}>
+            🎉 카테고리별 지출 내역
+          </div> */}
+          <PieChart width={400} height={270}>
+            <Pie
+              data={categoriesTotal}
+              dataKey="total"
+              nameKey="name"
+              cx="55%"
+              cy="55%"
+              outerRadius={100}
+              // innerRadius={60}
+              fill="#8884d8"
+              label
+            />
+          </PieChart>
+          <div>
+            <div className={pieChartTitle}>
+              🎉 카테고리별 지출내역 합계 Top3
+            </div>
+            <div className={categoryRankBox}>
+            {categoriesTotal.slice(0, 3).map((category, idx) => 
+              (
+                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                  <div>{idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}
+                    {category.name}
+                  </div> 
+                  <div>
+                    {category.total}원
+                  </div>
+                </div>
+              )
+            )}
+            </div>
+          </div>
+        </div>
         ) : (!checkload) ? (<div style={{width: '400px'}}></div>) : (
           <div className={assetImageContainer}>
             <img className={assetImage} src={assetImg} alt="asset-img.png" />

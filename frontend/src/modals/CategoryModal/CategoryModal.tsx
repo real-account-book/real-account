@@ -6,6 +6,7 @@ import { deleteButton } from "../../components/BoardView/DetailView/DetailView.c
 import { TCategory } from "../../types/category.type";
 import { addButton, buttonIcon, buttonText } from "../UpdateHistoryModal/UpdateHistoryModal.css";
 import { addCategoryButton, addCategoryText, categoriesContainer, categoryBox } from "./CategoryModal.css";
+import useChangeHistoriesStore from "../../store/changeHistories";
 
 type TCategoryAddModal = {
   open: boolean;
@@ -22,6 +23,7 @@ const CategoryModal = ({
 }: TCategoryAddModal) => {
   const [handleInput, setHandleInput] = useState<boolean>(false);
   const [categoryName, setCategoryName] = useState<string>("");
+  const { handleCategoryFlag } = useChangeHistoriesStore();
 
   const AddCategories = async () => {
     const payload = {
@@ -36,6 +38,7 @@ const CategoryModal = ({
       setCategories([...categories, newCategory]);
     });
     setHandleInput(!handleInput);
+    handleCategoryFlag();
   };
 
   const DeleteCategory = async (category: TCategory, idx: number) => {
@@ -44,6 +47,7 @@ const CategoryModal = ({
         const categoriesCopy = categories;
         categoriesCopy.splice(idx, 1);
         setCategories([...categoriesCopy]);
+        handleCategoryFlag();
       })
       .catch(() => {
         window.alert(

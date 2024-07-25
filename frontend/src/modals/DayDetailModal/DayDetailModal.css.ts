@@ -28,10 +28,27 @@ globalStyle(`${scrollableContainer}::-webkit-scrollbar-thumb:hover`, {
 export const lowerContainer = style({
   display: `flex`,
   justifyContent: 'space-between',
-  padding: '20px 10px',
+  padding: '20px 15px',
   borderTop: `1px solid ${vars.color.gray}`
 });
+
+export const addButtonContainer = style({
+  height: 25
+})
 
 export const addHistoryButton = style({
   display: `flex`,
 });
+
+export const dayTotalContainer = style({
+  
+})
+
+export const dayTotalPrice = style({
+  fontSize: 20,
+  fontWeight: 600,
+})
+
+export const dayTotalDate = style({
+  color: vars.color.fontGray
+})
