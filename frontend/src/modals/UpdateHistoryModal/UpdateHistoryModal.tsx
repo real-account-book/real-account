@@ -68,7 +68,7 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
       selectedDate.date()
     );
 
-    let payload: any = {
+    const payload: any = {
       ...dataBox,
       title: history === "plus" ? values["수익처"] : values["지출처"],
       content: values["메모"],

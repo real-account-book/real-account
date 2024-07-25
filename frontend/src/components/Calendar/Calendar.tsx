@@ -110,6 +110,6 @@ function renderEventContent(eventContent: EventContentArg) {
       {event.title}
     </div>
   )
-};
+}
 
 export default Calendar;
