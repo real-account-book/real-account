@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 type NotificationPlacement = NotificationArgsProps['placement'];
 
 const onChange = (key: string) => {
-  console.log(key);
+  // console.log(key);
 };
 
 const AddHistoryModal = () => {

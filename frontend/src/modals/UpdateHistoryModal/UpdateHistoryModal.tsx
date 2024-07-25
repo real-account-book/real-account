@@ -74,7 +74,6 @@ const UpdateHistoryModal = ({ isUpdateOpen, setIsUpdateOpen, openNotification, h
       content: values["메모"],
       uploaded_at: date,
     };
-    console.log(payload);
     if ('plus' in data) {
       const send = {plus_id: data.plus_id, payload}
       updatePlus(send).then(() => {

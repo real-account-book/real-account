@@ -35,7 +35,6 @@ const MonthlyList4: FC = () => {
   const handleClick = () => {
     if (year) {
       navigate(`/month/${year}04`);
-      console.log(`month/${year}`)
     }
   };
 

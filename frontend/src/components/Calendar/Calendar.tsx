@@ -23,7 +23,6 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
       // const calendarApi = calendarRef.current.getApi();
       // calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
       fetchEvents(year, month);
-      console.log('여기 캘린더 페이지', year, month)
     }
   }, [year, month]);
 
