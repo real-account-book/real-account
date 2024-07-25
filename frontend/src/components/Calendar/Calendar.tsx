@@ -18,8 +18,8 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
 
   useEffect(() => {
     if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
+      // const calendarApi = calendarRef.current.getApi();
+      // calendarApi.gotoDate(`${year}-${month.toString().padStart(2, '0')}-01`);
       fetchEvents(year, month);
     }
   }, [year, month]);
@@ -35,13 +35,14 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, onDateChange }) => {
     const date = arg.view.currentStart;
     const newYear = date.getFullYear();
     const newMonth = date.getMonth() + 1;
-    onDateChange(newYear, newMonth);
+    // onDateChange(newYear, newMonth);
   }
 
   return (
     <div className='demo-app'>
       <div className='demo-app-main'>
         <FullCalendar
+          initialDate={`${year}-${month.toString().padStart(2, '0')}-01`}
           ref={calendarRef}
           plugins={[dayGridPlugin]}
           headerToolbar={{

@@ -4,10 +4,11 @@ import { alphabet, button, purpleBoxSecond } from "./MonthNavigator.css.ts";
 interface MonthNavigatorProps {
   year: number;
   month: number;
-  onDateChange: (year: number, month: number) => void;
+  onDateChange?: (year: number, month: number) => void;
 }
 
 const MonthNavigator: FC<MonthNavigatorProps> = ({ year, month, onDateChange }) => {
+  console.log('MonthNavigator', year, month)
   const months = [
     '1월', '2월', '3월', '4월', '5월', '6월',
     '7월', '8월', '9월', '10월', '11월', '12월'
