@@ -6,10 +6,6 @@ import React, { useMemo } from 'react';
 
 type NotificationPlacement = NotificationArgsProps['placement'];
 
-const onChange = (key: string) => {
-  // console.log(key);
-};
-
 const AddHistoryModal = () => {
   const { addModalState, handleAddModalState } = useAddStateStore();
 
@@ -48,7 +44,7 @@ const AddHistoryModal = () => {
         onCancel={handleAddModalState}
         footer={() => null}
       >
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs defaultActiveKey="1" items={items} />
       </Modal>
     </Context.Provider>
   );

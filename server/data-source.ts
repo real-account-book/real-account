@@ -9,15 +9,5 @@ export const AppDataSource = new DataSource({
   dropSchema: true,
   synchronize: true,
   logging: false,
-  // type: "mysql",
-  // port: 3306,
-  // host: process.env.HOST_KEY,
-  // username: process.env.USER_KEY,
-  // password: process.env.PASSWORD_KEY,
-  // database: process.env.DATABASE_KEY, // Accountbook => accountbook으로 수정
-  // synchronize: true,
-  // logging: false,
   entities: [__dirname + "/entity/*.js"],
-  // migrations: [],
-  // subscribers: [],
 });

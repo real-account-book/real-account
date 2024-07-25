@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import {AppDataSource} from '../data-source'
 import { Asset_minus } from "../entity/asset_minus";
 import { Request, Response } from 'express';
-import { useSearchMinus } from '../migration/useSearch';
+import { useSearchMinus } from '../util/useSearch';
 
 export const addMinus = async (req : Request,res : Response) => {
     const {minus, category , title, content, uploaded_at} = req.body;
